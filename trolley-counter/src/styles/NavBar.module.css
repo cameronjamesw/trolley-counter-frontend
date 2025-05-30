@@ -1,0 +1,9 @@
+.NavBar {
+    background-color: #000;
+}
+
+.NavLink {
+    color: #fff;
+    font-size: 2.5rem;
+    text-decoration: none;
+}

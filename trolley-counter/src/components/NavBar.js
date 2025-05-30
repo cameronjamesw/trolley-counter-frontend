@@ -1,14 +1,17 @@
-import React from 'react'
-import { Navbar, Container } from 'react-bootstrap'
+import React from "react";
+import { Navbar, Container, NavLink } from "react-bootstrap";
+import styles from "../styles/NavBar.module.css";
 
 const NavBar = () => {
   return (
-    <Navbar bg="dark" variant="dark" fixed="top">
+    <Navbar fixed="top" className={styles.NavBar}>
       <Container>
-        <Navbar.Brand href="#home">This is the navbar!!</Navbar.Brand>
+        <NavLink className={styles.NavLink}>
+          <Navbar.Brand>Trolley Counter</Navbar.Brand>
+        </NavLink>
       </Container>
     </Navbar>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;
