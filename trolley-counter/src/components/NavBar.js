@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav } from "react-bootstrap";
 import styles from "../styles/NavBar.module.css";
 
 const NavBar = () => {
@@ -15,13 +15,9 @@ const NavBar = () => {
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Stats</Nav.Link>
-            <NavDropdown title="Trollies" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Front Labels</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Back Labels
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Missing Labels</NavDropdown.Item>
-            </NavDropdown>
+            <Nav.Link>Sign In</Nav.Link>
+            <Nav.Link>Sign Up</Nav.Link>
+            <Nav.Link>Sign Out</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
