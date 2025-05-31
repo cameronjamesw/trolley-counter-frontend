@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react';
+import SignInForm from './SignInForm';
+import SignUpForm from './SignUpForm';
+import { Button } from 'react-bootstrap';
 
-const SignInSignUp = () => {
+function SignInSignUp() {
+  const [isSignUp, setIsSignUp] = useState(false);
+
+  const toggleForm = () => setIsSignUp(prev => !prev);
+
   return (
-    <div>
-      <h1>Thia is the Sign In page!</h1>
+    <div className="auth-container">
+      {isSignUp ? <SignUpForm /> : <SignInForm />}
+      <Button variant="link" onClick={toggleForm}>
+        {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
+      </Button>
     </div>
-  )
+  );
 }
 
-export default SignInSignUp
+export default SignInSignUp;
