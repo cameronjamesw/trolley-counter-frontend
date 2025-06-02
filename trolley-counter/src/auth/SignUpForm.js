@@ -17,8 +17,14 @@ const SignUpForm = () => {
       [event.target.name]: event.target.value
     })
   }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(signUpData)
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <h1>Sign Up</h1>
       <Form.Group className="mb-3" controlId="username">
         <Form.Label className="d-none">Username</Form.Label>
@@ -57,9 +63,6 @@ const SignUpForm = () => {
           value={password2}
           onChange={handleChange}
         />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
       </Form.Group>
       <Button variant="primary" type="submit">
         Submit
