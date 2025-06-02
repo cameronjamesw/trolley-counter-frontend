@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
 const SignUpForm = () => {
+  const [signUpData, setSignUpData] = useState({
+    username: "",
+    email: "",
+    password1: "",
+    password2: ""
+  });
+
+  const {username, email, password1, password2} = signUpData
+
+  const handleChange = (event) => {
+    setSignUpData({
+      ...signUpData,
+      [event.target.name]: event.target.value
+    })
+  }
   return (
     <Form>
       <h1>Sign Up</h1>
@@ -11,6 +26,8 @@ const SignUpForm = () => {
           type="text"
           placeholder="Enter username"
           name="username"
+          value={username}
+          onChange={handleChange}
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="email">
@@ -18,14 +35,18 @@ const SignUpForm = () => {
         <Form.Control 
         type="email" 
         placeholder="Enter email" 
-        name="email" />
+        name="email"
+        value={email}
+        onChange={handleChange} />
       </Form.Group>
       <Form.Group className="mb-3" controlId="password1">
         <Form.Label className="d-none">Password</Form.Label>
         <Form.Control 
         type="password" 
         placeholder="Password" 
-        name="password1" />
+        name="password1"
+        value={password1}
+        onChange={handleChange}/>
       </Form.Group>
       <Form.Group className="mb-3" controlId="password2">
         <Form.Label className="d-none">Confirm Password</Form.Label>
@@ -33,6 +54,8 @@ const SignUpForm = () => {
           type="password"
           placeholder="Confirm Password"
           name="password2"
+          value={password2}
+          onChange={handleChange}
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
