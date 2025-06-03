@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
@@ -8,6 +8,8 @@ const SignUpForm = () => {
     password1: "",
     password2: ""
   });
+
+  const [errors, setErrors] = useState({});
 
   const {username, email, password1, password2} = signUpData
 
@@ -20,7 +22,6 @@ const SignUpForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(signUpData)
   }
 
   return (
@@ -36,6 +37,11 @@ const SignUpForm = () => {
           onChange={handleChange}
         />
       </Form.Group>
+      {errors.username?.map((msg, idx) => {
+        <Alert variant="warning" key={idx}>
+          {msg}
+        </Alert>
+      })}
       <Form.Group className="mb-3" controlId="email">
         <Form.Label className="d-none">Email address</Form.Label>
         <Form.Control 
