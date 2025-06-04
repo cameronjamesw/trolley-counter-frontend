@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
-import axios from "axios";
+import axios from "../api/axiosDefaults";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
