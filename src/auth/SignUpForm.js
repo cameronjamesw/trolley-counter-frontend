@@ -52,10 +52,11 @@ const SignUpForm = () => {
       </Form.Group>
       {Array.isArray(errors?.username) &&
         errors.username.map((msg, idx) => (
-          <Alert variant="warning" key={idx}>
+          <Alert variant="danger" key={idx}>
             {msg}
           </Alert>
         ))}
+
       <Form.Group className="mb-3" controlId="email">
         <Form.Label className="d-none">Email address</Form.Label>
         <Form.Control
@@ -65,6 +66,13 @@ const SignUpForm = () => {
           value={email}
           onChange={handleChange}
         />
+        {Array.isArray(errors?.email) &&
+        errors.email.map((msg, idx) => (
+          <Alert variant="danger" key={idx}>
+            {msg}
+          </Alert>
+        ))}
+
       </Form.Group>
       <Form.Group className="mb-3" controlId="password1">
         <Form.Label className="d-none">Password</Form.Label>
@@ -76,6 +84,13 @@ const SignUpForm = () => {
           onChange={handleChange}
         />
       </Form.Group>
+      {Array.isArray(errors?.password1) &&
+        errors.password1.map((msg, idx) => (
+          <Alert variant="danger" key={idx}>
+            {msg}
+          </Alert>
+        ))}
+
       <Form.Group className="mb-3" controlId="password2">
         <Form.Label className="d-none">Confirm Password</Form.Label>
         <Form.Control
@@ -86,6 +101,13 @@ const SignUpForm = () => {
           onChange={handleChange}
         />
       </Form.Group>
+      {Array.isArray(errors?.password2) &&
+        errors.password2.map((msg, idx) => (
+          <Alert variant="danger" key={idx}>
+            {msg}
+          </Alert>
+        ))}
+
       <Button variant="primary" type="submit">
         Submit
       </Button>
