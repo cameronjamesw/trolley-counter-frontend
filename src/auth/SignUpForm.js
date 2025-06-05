@@ -39,8 +39,8 @@ const SignUpForm = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h1>Sign Up</h1>
-      <Form.Group className="mb-3" controlId="username">
+      <h1 className="text-white my-3">Sign Up</h1>
+      <Form.Group className="mt-4" controlId="username">
         <Form.Label className="d-none">Username</Form.Label>
         <Form.Control
           type="text"
@@ -57,7 +57,7 @@ const SignUpForm = () => {
           </Alert>
         ))}
 
-      <Form.Group className="mb-3" controlId="email">
+      <Form.Group className="mt-4" controlId="email">
         <Form.Label className="d-none">Email address</Form.Label>
         <Form.Control
           type="email"
@@ -74,7 +74,7 @@ const SignUpForm = () => {
         ))}
 
       </Form.Group>
-      <Form.Group className="mb-3" controlId="password1">
+      <Form.Group className="mt-4" controlId="password1">
         <Form.Label className="d-none">Password</Form.Label>
         <Form.Control
           type="password"
@@ -91,7 +91,7 @@ const SignUpForm = () => {
           </Alert>
         ))}
 
-      <Form.Group className="mb-3" controlId="password2">
+      <Form.Group className="mt-4" controlId="password2">
         <Form.Label className="d-none">Confirm Password</Form.Label>
         <Form.Control
           type="password"
@@ -108,7 +108,7 @@ const SignUpForm = () => {
           </Alert>
         ))}
 
-      <Button variant="success" type="submit">
+      <Button variant="success" className="mt-4" type="submit">
         Submit
       </Button>
     </Form>
