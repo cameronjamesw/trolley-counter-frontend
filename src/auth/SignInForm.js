@@ -34,7 +34,7 @@ const SignInForm = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h1 className='text-white my-4'>Sign In Form</h1>
+      <h1 className='text-white my-4'>Sign In</h1>
 
       {Array.isArray(errors?.non_field_errors) &&
         errors.non_field_errors.map((msg, idx) => (
