@@ -122,7 +122,7 @@ const SignUpForm = () => {
         Submit
       </Button>
       {successMessage && (
-        <Alert variant="success">
+        <Alert variant="success" className="mt-4">
           {successMessage}
         </Alert>
       )}
