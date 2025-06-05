@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import axios from "../api/axiosDefaults";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
@@ -10,12 +11,15 @@ const SignUpForm = () => {
     password2: "",
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios.get('https://trolley-counter-backend-3f175e45a111.herokuapp.com')
       .then(response => console.log("Connected to backend:", response.data))
       .catch(error => console.error("Backend connection error:", error));
   }, []);
 
+  const [successMessage, setSuccessMessage] = useState('');
   const [errors, setErrors] = useState({});
 
   const { username, email, password1, password2 } = signUpData;
@@ -30,10 +34,16 @@ const SignUpForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("/dj-rest-auth/registration/", signUpData);
+      const response = await axios.post("/dj-rest-auth/registration/", signUpData);
+      if (response.status === 201 || response.status === 200) {
+        setSuccessMessage('Account created successfully!');
+        setErrors({});
+        setSignUpData({ username: '', email: '', password1: '', password2: '' });
+      }
     } catch (err) {
       console.log("Signup error response:", err.response?.data);
-      setErrors(err.response?.data);
+      setSuccessMessage('');
+      setErrors(err.response?.data || {});
     }
   };
 
@@ -111,6 +121,11 @@ const SignUpForm = () => {
       <Button variant="success" className="mt-4" type="submit">
         Submit
       </Button>
+      {successMessage && (
+        <Alert variant="success">
+          {successMessage}
+        </Alert>
+      )}
     </Form>
   );
 };
