@@ -20,7 +20,7 @@ const SignInForm = () => {
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button variant="success" type="submit">
         Submit
       </Button>
     </Form>

@@ -11,7 +11,7 @@ function SignInSignUp() {
   return (
     <div className="auth-container">
       {isSignUp ? <SignUpForm /> : <SignInForm />}
-      <Button variant="link" onClick={toggleForm}>
+      <Button variant="link" className='text-white' onClick={toggleForm}>
         {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
       </Button>
     </div>
