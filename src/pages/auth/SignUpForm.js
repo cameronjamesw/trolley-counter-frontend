@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import axios from "../../api/axiosDefaults";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
@@ -14,12 +14,13 @@ const SignUpForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('https://trolley-counter-backend-3f175e45a111.herokuapp.com')
-      .then(response => console.log("Connected to backend:", response.data))
-      .catch(error => console.error("Backend connection error:", error));
+    axios
+      .get("https://trolley-counter-backend-3f175e45a111.herokuapp.com")
+      .then((response) => console.log("Connected to backend:", response.data))
+      .catch((error) => console.error("Backend connection error:", error));
   }, []);
 
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
   const [errors, setErrors] = useState({});
 
   const { username, email, password1, password2 } = signUpData;
@@ -34,15 +35,23 @@ const SignUpForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("/dj-rest-auth/registration/", signUpData);
+      const response = await axios.post(
+        "/dj-rest-auth/registration/",
+        signUpData
+      );
       if (response.status === 201 || response.status === 200) {
-        setSuccessMessage('Account created successfully!');
+        setSuccessMessage("Account created successfully!");
         setErrors({});
-        setSignUpData({ username: '', email: '', password1: '', password2: '' });
+        setSignUpData({
+          username: "",
+          email: "",
+          password1: "",
+          password2: "",
+        });
       }
     } catch (err) {
       console.log("Signup error response:", err.response?.data);
-      setSuccessMessage('');
+      setSuccessMessage("");
       setErrors(err.response?.data || {});
     }
   };
@@ -77,12 +86,11 @@ const SignUpForm = () => {
           onChange={handleChange}
         />
         {Array.isArray(errors?.email) &&
-        errors.email.map((msg, idx) => (
-          <Alert variant="danger" key={idx}>
-            {msg}
-          </Alert>
-        ))}
-
+          errors.email.map((msg, idx) => (
+            <Alert variant="danger" key={idx}>
+              {msg}
+            </Alert>
+          ))}
       </Form.Group>
       <Form.Group className="mt-4" controlId="password1">
         <Form.Label className="d-none">Password</Form.Label>
@@ -126,6 +134,12 @@ const SignUpForm = () => {
           {successMessage}
         </Alert>
       )}
+
+      <div className="mt-4">
+        <Link className="text-white" to="/sign-in/">
+          Already have an account? Sign In
+        </Link>
+      </div>
     </Form>
   );
 };

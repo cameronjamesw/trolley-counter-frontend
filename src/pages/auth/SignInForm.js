@@ -1,6 +1,7 @@
 import axios from "../../api/axiosDefaults";
 import React, { useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 const SignInForm = () => {
   const [signInData, setSignInData] = useState({
@@ -80,6 +81,12 @@ const SignInForm = () => {
       <Button variant="success" className='mt-4' type="submit">
         Submit
       </Button>
+
+      <div className="mt-4">
+      <Link className='text-white' to="/sign-up/">
+        Don't have an account? Sign Up
+      </Link>
+    </div>
     </Form>
   );
 };
