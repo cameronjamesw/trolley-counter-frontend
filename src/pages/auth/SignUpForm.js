@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
-import axios from "../api/axiosDefaults";
+import axios from "../../api/axiosDefaults";
 import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {

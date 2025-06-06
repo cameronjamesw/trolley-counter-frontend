@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import NavBar from './components/NavBar';
-import SignInSignUp from './auth/SignInSignUp';
+import SignInSignUp from './pages/auth/SignInSignUp';
 import { Route, Routes } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 
