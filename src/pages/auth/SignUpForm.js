@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
-import axios from "../../api/axiosDefaults";
 import { Link, useNavigate } from "react-router-dom";
+import { axiosReq } from "../../api/axiosDefaults";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
@@ -14,7 +14,7 @@ const SignUpForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
+    axiosReq
       .get("https://trolley-counter-backend-3f175e45a111.herokuapp.com")
       .then((response) => console.log("Connected to backend:", response.data))
       .catch((error) => console.error("Backend connection error:", error));
@@ -35,10 +35,11 @@ const SignUpForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
+      const response = await axiosReq.post(
         "/dj-rest-auth/registration/",
         signUpData
       );
+      navigate('/sign-in/');
       if (response.status === 201 || response.status === 200) {
         setSuccessMessage("Account created successfully!");
         setErrors({});
