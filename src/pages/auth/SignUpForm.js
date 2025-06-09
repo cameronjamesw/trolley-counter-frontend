@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
@@ -12,13 +12,6 @@ const SignUpForm = () => {
   });
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    axiosReq
-      .get("https://trolley-counter-backend-3f175e45a111.herokuapp.com")
-      .then((response) => console.log("Connected to backend:", response.data))
-      .catch((error) => console.error("Backend connection error:", error));
-  }, []);
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errors, setErrors] = useState({});

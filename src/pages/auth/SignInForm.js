@@ -25,26 +25,53 @@ const SignInForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrors({}); // clear previous errors
+  
     try {
       const { data } = await axiosReq.post("/api/token/", signInData);
+      console.log("Login response data:", data);
+  
+      // Defensive: Check tokens presence before anything else
+      if (!data.access || !data.refresh) {
+        console.error("Tokens missing in login response", data);
+        setErrors({ non_field_errors: ["Login failed: Tokens missing from response"] });
+        return;
+      }
   
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
-      setTokenTimestamp(data.access);
   
-      axiosReq.defaults.headers.Authorization = `Bearer ${data.access}`;
-      axiosRes.defaults.headers.Authorization = `Bearer ${data.access}`;
+      // Defensive token timestamp setting
+      try {
+        setTokenTimestamp(data.access);
+      } catch (error) {
+        console.error("Error setting token timestamp:", error);
+        // Continue anyway, token timestamp not critical
+      }
   
-      const userResponse = await axiosReq.get("/dj-rest-auth/user/");
-      setCurrentUser(userResponse.data);
-      console.log(userResponse.data);
-  
+      // Fetch user info
+      try {
+        const userResponse = await axiosReq.get("/dj-rest-auth/user/");
+        console.log("User fetched:", userResponse.data);
+        setCurrentUser(userResponse.data);
+      } catch (userError) {
+        console.error("Failed to fetch user after login:", userError);
+        setErrors({ non_field_errors: ["Failed to fetch user data"] });
+      }
     } catch (err) {
-      console.error("Login error:", err);
-      console.error("Full error response:", err?.response?.data || err.message || err);
-      setErrors(err.response?.data || {});
+      // Handle login errors here
+      console.error("Login error caught:", err);
+  
+      if (err.response?.data) {
+        setErrors(err.response.data);
+      } else if (err.message) {
+        setErrors({ non_field_errors: [err.message] });
+      } else {
+        setErrors({ non_field_errors: ["An unknown error occurred"] });
+      }
     }
   };
+  
 
   return (
     <Form onSubmit={handleSubmit}>

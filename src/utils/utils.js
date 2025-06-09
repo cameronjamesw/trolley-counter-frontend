@@ -1,14 +1,11 @@
 import { jwtDecode } from "jwt-decode";
 
-export const setTokenTimestamp = (accessToken) => {
+export const setTokenTimestamp = (access) => {
   try {
-    const decoded = jwtDecode(accessToken);
-    const now = Math.floor(Date.now() / 1000);
-    const buffer = 60;
-
-    localStorage.setItem("tokenTimestamp", now + buffer);
-  } catch (error) {
-    console.error("Failed to decode access token:", error);
+    const decoded = jwtDecode(access);
+    localStorage.setItem("tokenTimestamp", decoded.exp);
+  } catch (err) {
+    console.error("Failed to decode token:", err);
   }
 };
 
@@ -18,5 +15,9 @@ export const removeTokenTimestamp = () => {
 
 export const shouldRefreshToken = () => {
   const timestamp = localStorage.getItem("tokenTimestamp");
-  return timestamp && parseInt(timestamp, 10) < Math.floor(Date.now() / 1000);
+  if (!timestamp) return false;
+
+  const buffer = 60; // seconds before actual expiry
+  const now = Math.floor(Date.now() / 1000);
+  return now >= timestamp - buffer;
 };

@@ -1,15 +1,34 @@
 import React from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "../styles/NavBar.module.css";
 import {
   useCurrentUser,
   useSetCurrentUser,
 } from "../contexts/CurrentUserContext";
+import { removeTokenTimestamp } from "../utils/utils";
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
+
+  const navigate = useNavigate();
+
+  // const handleSignOut = async () => {
+  //   try {
+  //     await axiosReq.post("/dj-rest-auth/logout/");
+  //     setCurrentUser(null);
+  //     removeTokenTimestamp();
+  //     navigate('/sign-in/');
+
+  //     // Optional: clean up localStorage
+  //     localStorage.removeItem("access");
+  //     localStorage.removeItem("refresh");
+  //     localStorage.removeItem("tokenTimestamp");
+  //   } catch (err) {
+  //     console.error("Logout error:", err);
+  //   }
+  // };
 
   const loggedInIcons = (
     <>
@@ -38,7 +57,7 @@ const NavBar = () => {
             <Nav.Link as={NavLink} to="/">
               Home
             </Nav.Link>
-            { currentUser ? loggedInIcons : loggedOutIcons }
+            {currentUser ? loggedInIcons : loggedOutIcons}
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -5,14 +5,27 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CurrentUserProvider } from "./contexts/CurrentUserContext";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+window.onerror = (msg, url, lineNo, columnNo, error) => {
+  console.error('Global error:', { msg, url, lineNo, columnNo, error });
+  return false; // Allow default handling too
+};
+
+window.addEventListener('unhandledrejection', event => {
+  console.error('Unhandled promise rejection:', event.reason);
+});
+
 root.render(
-  <Router>
-    <CurrentUserProvider>
-      <App />
-    </CurrentUserProvider>
-  </Router>
+  <ErrorBoundary>
+    <Router>
+      <CurrentUserProvider>
+        <App />
+      </CurrentUserProvider>
+    </Router>
+  </ErrorBoundary>
 );
 
 // If you want to start measuring performance in your app, pass a function
