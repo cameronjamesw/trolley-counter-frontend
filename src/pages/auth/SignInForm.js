@@ -1,9 +1,10 @@
-import { axiosReq, axiosRes } from "../../api/axiosDefaults";
+import { axiosReq } from "../../api/axiosDefaults";
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
+import { useCurrentUser, useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { setTokenTimestamp } from "../../utils/utils";
+import { useRedirect } from "../../hooks/useRedirect";
 
 const SignInForm = () => {
   const [signInData, setSignInData] = useState({
@@ -12,6 +13,9 @@ const SignInForm = () => {
   });
 
   const setCurrentUser = useSetCurrentUser();
+  const currentUser = useCurrentUser();
+
+  useRedirect(currentUser ? "loggedIn" : "loggedOut");
 
   const navigate = useNavigate();
 

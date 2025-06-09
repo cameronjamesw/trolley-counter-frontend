@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
+import { useRedirect } from "../../hooks/useRedirect";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
@@ -12,6 +14,12 @@ const SignUpForm = () => {
   });
 
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
+  useRedirect(currentUser ? "loggedIn" : "loggedOut");
+
+  if (currentUser === undefined) {
+    return null; // or loading spinner
+  }
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errors, setErrors] = useState({});
