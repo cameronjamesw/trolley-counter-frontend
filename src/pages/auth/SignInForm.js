@@ -1,7 +1,7 @@
 import { axiosReq, axiosRes } from "../../api/axiosDefaults";
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { setTokenTimestamp } from "../../utils/utils";
 
@@ -12,6 +12,8 @@ const SignInForm = () => {
   });
 
   const setCurrentUser = useSetCurrentUser();
+
+  const navigate = useNavigate();
 
   const { username, password } = signInData;
   const [errors, setErrors] = useState({});
@@ -54,6 +56,7 @@ const SignInForm = () => {
         const userResponse = await axiosReq.get("/dj-rest-auth/user/");
         console.log("User fetched:", userResponse.data);
         setCurrentUser(userResponse.data);
+        navigate('/');
       } catch (userError) {
         console.error("Failed to fetch user after login:", userError);
         setErrors({ non_field_errors: ["Failed to fetch user data"] });
