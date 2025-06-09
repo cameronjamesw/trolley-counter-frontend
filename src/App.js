@@ -5,17 +5,15 @@ import { Route, Routes } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 import SignUpForm from './pages/auth/SignUpForm';
 import SignInForm from './pages/auth/SignInForm';
-import TrolleyIndex from './components/TrolleyIndex';
-import TrolleyInfo from './components/TrolleyInfo';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
     <div className="App">
       < NavBar />
-      <TrolleyIndex />
-      <TrolleyInfo />
       <Container>
         <Routes>
+        <Route exact path='/' element={<HomePage />} />
         <Route path="/sign-in/" element={<SignInForm />} />
         <Route path="/sign-up/" element={<SignUpForm />} />
         </Routes>
