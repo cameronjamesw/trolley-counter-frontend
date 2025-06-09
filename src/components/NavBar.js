@@ -14,26 +14,25 @@ const NavBar = () => {
 
   const navigate = useNavigate();
 
-  // const handleSignOut = async () => {
-  //   try {
-  //     await axiosReq.post("/dj-rest-auth/logout/");
-  //     setCurrentUser(null);
-  //     removeTokenTimestamp();
-  //     navigate('/sign-in/');
-
-  //     // Optional: clean up localStorage
-  //     localStorage.removeItem("access");
-  //     localStorage.removeItem("refresh");
-  //     localStorage.removeItem("tokenTimestamp");
-  //   } catch (err) {
-  //     console.error("Logout error:", err);
-  //   }
-  // };
+  const handleLogout = () => {
+    // Clear user from context
+    setCurrentUser(null);
+  
+    // Remove tokens
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+  
+    // Remove token timestamp
+    removeTokenTimestamp();
+  
+    // Optionally, navigate to the login page or home
+    navigate("/sign-in");
+  };
 
   const loggedInIcons = (
     <>
       <Nav.Link href="#link">Stats</Nav.Link>
-      <Nav.Link>Sign Out</Nav.Link>
+      <Nav.Link onClick={handleLogout}>Sign Out</Nav.Link>
     </>
   );
 
