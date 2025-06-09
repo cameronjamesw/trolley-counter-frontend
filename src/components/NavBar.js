@@ -17,14 +17,14 @@ const NavBar = () => {
   const handleLogout = () => {
     // Clear user from context
     setCurrentUser(null);
-  
+
     // Remove tokens
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
-  
+
     // Remove token timestamp
     removeTokenTimestamp();
-  
+
     // Optionally, navigate to the login page or home
     navigate("/sign-in");
   };
@@ -60,6 +60,11 @@ const NavBar = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
+      { currentUser && 
+      <Nav.Item className="text-white px-4 justify-self-end">
+        <p>Welcome back, {currentUser?.username}!</p>
+      </Nav.Item>
+      }
     </Navbar>
   );
 };
