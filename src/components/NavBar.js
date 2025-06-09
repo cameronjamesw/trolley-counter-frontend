@@ -7,6 +7,7 @@ import {
   useSetCurrentUser,
 } from "../contexts/CurrentUserContext";
 import { removeTokenTimestamp } from "../utils/utils";
+import CurrentDate from "./CurrentDate";
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
@@ -59,12 +60,15 @@ const NavBar = () => {
             {currentUser ? loggedInIcons : loggedOutIcons}
           </Nav>
         </Navbar.Collapse>
+        {currentUser && (
+          <span className={`d-none d-lg-block ${styles.Link}`}>
+            <p>Welcome back, {currentUser?.username}!</p>
+          </span>
+        )}
+         <span className={`d-none d-lg-block ${styles.Link}`}>
+          <CurrentDate />
+        </span>
       </Container>
-      { currentUser && 
-      <Nav.Item className="text-white px-4 justify-self-end">
-        <p>Welcome back, {currentUser?.username}!</p>
-      </Nav.Item>
-      }
     </Navbar>
   );
 };
