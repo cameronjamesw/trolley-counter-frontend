@@ -6,12 +6,14 @@ import { Container } from 'react-bootstrap';
 import SignUpForm from './pages/auth/SignUpForm';
 import SignInForm from './pages/auth/SignInForm';
 import TrolleyIndex from './components/TrolleyIndex';
+import TrolleyInfo from './components/TrolleyInfo';
 
 function App() {
   return (
     <div className="App">
       < NavBar />
       <TrolleyIndex />
+      <TrolleyInfo />
       <Container>
         <Routes>
         <Route path="/sign-in/" element={<SignInForm />} />
