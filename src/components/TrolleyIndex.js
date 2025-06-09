@@ -4,11 +4,13 @@ import styles from '../styles/TrolleyIndex.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { useCurrentUser } from '../contexts/CurrentUserContext';
 
 const TrolleyIndex = () => {
 
   const [isHovered, setIsHovered] = useState(false);
 
+  const currentUser = useCurrentUser();
   const navigate = useNavigate();
 
   const handleMouseEnter = () => {
@@ -28,9 +30,9 @@ const TrolleyIndex = () => {
   const handleClick = () => {
     navigate('/add-trolley/')
   }
-  
-  return (
-    <Row>
+
+  const authIndex = (
+    <>
     <Container 
     style={buttonStyle}
     onMouseEnter={handleMouseEnter}
@@ -42,6 +44,20 @@ const TrolleyIndex = () => {
     <Container className={`col-8 col-lg-8 mt-4 ${styles.Main}`}>
         <p className='p-3'>Trolley Index</p>
     </Container>
+    </>
+  )
+
+  const unAuthIndex = (
+    <>
+    <Container className={`col-lg-8 mt-4 ${styles.Main}`}>
+        <p className='p-3'>Trolley Index</p>
+    </Container>
+    </>
+  )
+  
+  return (
+    <Row>
+    { currentUser ? authIndex : unAuthIndex }
     </Row>
   )
 }
