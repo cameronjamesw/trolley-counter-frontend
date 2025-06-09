@@ -1,4 +1,4 @@
-import { axiosReq } from "../../api/axiosDefaults";
+import { axiosReq, axiosRes } from "../../api/axiosDefaults";
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -26,18 +26,22 @@ const SignInForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await axiosReq.post("/dj-rest-auth/login/", signInData);
-      setCurrentUser(data.user);
-      console.log("Login data:", data);
-      if (data.refresh) {
-        setTokenTimestamp(data);
-      }
+      const { data } = await axiosReq.post("/api/token/", signInData);
+  
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+      setTokenTimestamp(data.access);
+  
+      axiosReq.defaults.headers.Authorization = `Bearer ${data.access}`;
+      axiosRes.defaults.headers.Authorization = `Bearer ${data.access}`;
+  
+      const userResponse = await axiosReq.get("/dj-rest-auth/user/");
+      setCurrentUser(userResponse.data);
+      console.log(userResponse.data);
+  
     } catch (err) {
       console.error("Login error:", err);
-      console.error(
-        "Full error response:",
-        err?.response?.data || err.message || err
-      );
+      console.error("Full error response:", err?.response?.data || err.message || err);
       setErrors(err.response?.data || {});
     }
   };
