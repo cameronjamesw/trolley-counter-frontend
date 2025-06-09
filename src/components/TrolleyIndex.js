@@ -5,7 +5,7 @@ import styles from '../styles/TrolleyIndex.module.css'
 const TrolleyIndex = () => {
   return (
     <Container className={`mt-4 ${styles.Main}`}>
-        This is the trolley index
+        <p className='p-3'>This is the trolley index</p>
     </Container>
   )
 }
