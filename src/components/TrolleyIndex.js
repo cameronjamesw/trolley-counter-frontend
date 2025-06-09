@@ -3,10 +3,13 @@ import { Container, Row } from 'react-bootstrap'
 import styles from '../styles/TrolleyIndex.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const TrolleyIndex = () => {
 
   const [isHovered, setIsHovered] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -21,6 +24,10 @@ const TrolleyIndex = () => {
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
   };
+
+  const handleClick = () => {
+    navigate('/add-trolley/')
+  }
   
   return (
     <Row>
@@ -28,7 +35,8 @@ const TrolleyIndex = () => {
     style={buttonStyle}
     onMouseEnter={handleMouseEnter}
     onMouseLeave={handleMouseLeave}
-    className={`d-flex col-2 col-lg-1 mt-4 ${styles.Main} ${styles.IconBox}`}>
+    className={`d-flex col-2 col-lg-1 mt-4 ${styles.Main} ${styles.IconBox}`}
+    onClick={handleClick}>
       <FontAwesomeIcon className={styles.Icon} icon={faCartShopping} />
     </Container>
     <Container className={`col-8 col-lg-8 mt-4 ${styles.Main}`}>

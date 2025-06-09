@@ -6,6 +6,7 @@ import { Container } from 'react-bootstrap';
 import SignUpForm from './pages/auth/SignUpForm';
 import SignInForm from './pages/auth/SignInForm';
 import HomePage from './pages/HomePage';
+import AddTrolleyForm from './pages/trollies/AddTrolleyForm';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route exact path='/' element={<HomePage />} />
         <Route path="/sign-in/" element={<SignInForm />} />
         <Route path="/sign-up/" element={<SignUpForm />} />
+        <Route exact path="/add-trolley/" element={<AddTrolleyForm />} />
         </Routes>
       </Container>
     </div>
