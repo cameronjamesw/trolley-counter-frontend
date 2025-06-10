@@ -7,14 +7,10 @@ const AddTrolleyForm = () => {
 
   if (currentUser === undefined) {
     return null; // or loading spinner
-  };
+  }
 
-  useRedirect(!currentUser? 'loggedIn' : 'loggedOut' );
-  return (
-    <div>
-        This is the add trolley form
-    </div>
-  );
+  useRedirect(!currentUser ? "loggedIn" : "loggedOut");
+  return <div>This is the add trolley form</div>;
 };
 
 export default AddTrolleyForm;

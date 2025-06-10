@@ -15,7 +15,7 @@ const NavBar = () => {
   const setCurrentUser = useSetCurrentUser();
 
   const navigate = useNavigate();
-  const {expanded, setExpanded, ref} = useClickOutsideToggle();
+  const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
   const handleLogout = () => {
     // Clear user from context
@@ -50,17 +50,19 @@ const NavBar = () => {
     </>
   );
   return (
-    <Navbar 
-    expanded={expanded}
-    data-bs-theme="dark" 
-    expand="lg" 
-    className={styles.NavBar}>
+    <Navbar
+      expanded={expanded}
+      data-bs-theme="dark"
+      expand="lg"
+      className={styles.NavBar}
+    >
       <Container>
         <Navbar.Brand href="#home">Trolley Counter</Navbar.Brand>
-        <Navbar.Toggle 
-        aria-controls="basic-navbar-nav"
-        ref={ref} 
-        onClick={() => setExpanded(!expanded)} />
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          ref={ref}
+          onClick={() => setExpanded(!expanded)}
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/">
@@ -74,7 +76,7 @@ const NavBar = () => {
             <p>Welcome back, {currentUser?.username}!</p>
           </span>
         )}
-         <span className={`d-none d-lg-block ${styles.Link}`}>
+        <span className={`d-none d-lg-block ${styles.Link}`}>
           <CurrentDate />
         </span>
       </Container>

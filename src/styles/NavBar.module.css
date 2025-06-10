@@ -1,13 +1,13 @@
 .NavBar {
-    background-color: #3d3d3d;
-    border-bottom: #fff solid 1px;
+  background-color: #3d3d3d;
+  border-bottom: #fff solid 1px;
 }
 
 .Link {
-    display: block;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: #fff;
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #fff;
 }

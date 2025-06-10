@@ -40,7 +40,7 @@ const SignUpForm = () => {
         "/dj-rest-auth/registration/",
         signUpData
       );
-      navigate('/sign-in/');
+      navigate("/sign-in/");
       if (response.status === 201 || response.status === 200) {
         setSuccessMessage("Account created successfully!");
         setErrors({});
