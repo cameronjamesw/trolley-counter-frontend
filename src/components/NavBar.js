@@ -8,12 +8,14 @@ import {
 } from "../contexts/CurrentUserContext";
 import { removeTokenTimestamp } from "../utils/utils";
 import CurrentDate from "./CurrentDate";
+import useClickOutsideToggle from "../hooks/clickOutsideToggle";
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
   const navigate = useNavigate();
+  const {expanded, setExpanded, ref} = useClickOutsideToggle();
 
   const handleLogout = () => {
     // Clear user from context
@@ -48,10 +50,17 @@ const NavBar = () => {
     </>
   );
   return (
-    <Navbar data-bs-theme="dark" expand="lg" className={styles.NavBar}>
+    <Navbar 
+    expanded={expanded}
+    data-bs-theme="dark" 
+    expand="lg" 
+    className={styles.NavBar}>
       <Container>
         <Navbar.Brand href="#home">Trolley Counter</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle 
+        aria-controls="basic-navbar-nav"
+        ref={ref} 
+        onClick={() => setExpanded(!expanded)} />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/">
