@@ -7,7 +7,8 @@ const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
 
   const [selectedValue, setSelectedValue] = useState({});
-  const [isEnabled, setIsEnabled] = useState(false); // boolean state
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [notes, setNotes] = useState()
 
   if (currentUser === undefined) {
     return null; // or loading spinner
@@ -24,6 +25,10 @@ const AddTrolleyForm = () => {
     const checked = event.target.checked;
     setIsEnabled(checked); // update the state
     console.log('Switch is now:', checked);
+  };
+
+  const handleChange = (event) => {
+   setNotes(event.target.value);
   };
 
   return (
@@ -61,7 +66,8 @@ const AddTrolleyForm = () => {
           rows={4}
           placeholder="Enter any notes here..."
           name="notes"
-          value={() => {}}
+          value={notes}
+          onChange={handleChange}
         />
       </Form.Group>
 
