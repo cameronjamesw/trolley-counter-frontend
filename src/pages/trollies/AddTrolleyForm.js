@@ -6,9 +6,13 @@ import { Button, Container, Form } from "react-bootstrap";
 const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
 
-  const [selectedValue, setSelectedValue] = useState({});
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [notes, setNotes] = useState()
+  const [formData, setFormData] = useState({
+    totes_count: 1,
+    in_use: 0,
+    notes: "",
+  });
+
+  const {totes_count, in_use, notes} = formData
 
   if (currentUser === undefined) {
     return null; // or loading spinner
@@ -16,34 +20,49 @@ const AddTrolleyForm = () => {
 
   useRedirect(!currentUser ? "loggedIn" : "loggedOut");
 
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-    setSelectedValue(value); // update state
-  };
+const handleSelectChange = (event) => {
+  const value = parseInt(event.target.value, 10); // since you're working with numbers
+  setFormData(prev => ({
+    ...prev,
+    totes_count: value,
+  }));
+};
 
-  const handleSwitchChange = (event) => {
-    const checked = event.target.checked;
-    setIsEnabled(checked); // update the state
-    console.log('Switch is now:', checked);
-  };
+const handleSwitchChange = (event) => {
+  const checked = event.target.checked;
+  setFormData(prev => ({
+    ...prev,
+    in_use: checked ? 1 : 0,
+  }));
+  console.log('Switch is now:', checked);
+};
 
-  const handleChange = (event) => {
-   setNotes(event.target.value);
-  };
+const handleChange = (event) => {
+  setFormData(prev => ({
+    ...prev,
+    [event.target.name]: event.target.value
+  }));
+};
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    console.log(formData);
+  }
 
   return (
-    <Form onSubmit={() => {}}>
+    <Form onSubmit={handleSubmit}>
       <h1 className="text-white my-4">Add Trolley</h1>
 
       <Container className="row">
         <Form.Group className="mt-4 col-10" controlId="tote-count">
           <Form.Label className="d-none">Tote Count</Form.Label>
-          <Form.Select value={selectedValue} onChange={handleSelectChange}>
+          <Form.Select name="totes_count" value={totes_count} onChange={handleSelectChange}>
             <option value="">-- Select Count --</option>
-            <option value="1" name="8-totes">
+            <option value="1">
               8 Totes
             </option>
-            <option value="2" name="10-totes">
+            <option value="2">
               10 Totes
             </option>
           </Form.Select>
@@ -53,7 +72,7 @@ const AddTrolleyForm = () => {
           <Form.Check
             type="switch"
             id="custom-switch"
-            checked={isEnabled}
+            checked={in_use}
             onChange={handleSwitchChange}
           />
         </Form.Group>
