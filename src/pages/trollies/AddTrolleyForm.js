@@ -3,6 +3,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
 import { Button, Container, Form } from "react-bootstrap";
 import styles from "../../styles/AddTrolleyForm.module.css"
+import AddLabelsForm from "./AddLabelsForm";
 
 const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
@@ -52,6 +53,7 @@ const AddTrolleyForm = () => {
   };
 
   return (
+    <div>
     <Form onSubmit={handleSubmit} className={styles.AddTrolleyForm}>
       <h1 className="text-white my-4">Add Trolley</h1>
       <Container className="row">
@@ -104,6 +106,9 @@ const AddTrolleyForm = () => {
         Submit
       </Button>
     </Form>
+
+    <AddLabelsForm />
+    </div>
   );
 };
 

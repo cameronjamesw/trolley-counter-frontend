@@ -1,0 +1,11 @@
+.AddLabelForm {
+    background-color: #6E947B;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.Label {
+    background-color: #2d843d;
+    border-radius: 20px;
+}
