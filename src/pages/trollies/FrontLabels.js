@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import styles from '../../styles/AddLabelForm.module.css';
 
-const FrontLabels = ({buttons}) => {
+const BackLabels = ({buttons}) => {
     const [selectedIndices, setSelectedIndices] = useState([]);
 
     const toggleSelection = (index) => {
@@ -48,4 +48,4 @@ const FrontLabels = ({buttons}) => {
   )
 }
 
-export default FrontLabels
+export default BackLabels

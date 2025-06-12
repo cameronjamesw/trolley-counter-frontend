@@ -15,8 +15,17 @@ import {
   faPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import FrontLabels from "./FrontLabels";
+import BackLabels from "./FrontLabels";
 
 const AddLabelsForm = (props) => {
+  const [showBack, setShowBack] = useState(false);
+
+  const handleToggle = (event) => {
+    event.currentTarget.dataset.name == "front"
+      ? setShowBack(false)
+      : setShowBack(true);
+  };
+
   const buttons =
     props.totes_count === 1
       ? [
@@ -46,14 +55,22 @@ const AddLabelsForm = (props) => {
     <Form className={styles.AddLabelForm}>
       <h1 className="text-white my-4">Add Labels</h1>
       <Container className="text-white d-flex justify-content-around g-0">
-        <div className={`w-50 ${styles.LabelsDiv}`}>
+        <div
+          onClick={handleToggle}
+          data-name="front"
+          className={`w-50 ${styles.LabelsDiv}`}
+        >
           <h2>Front Labels</h2>
         </div>
-        <div className="w-50">
+        <div onClick={handleToggle} data-name="back" className="w-50">
           <h2>Back Labels</h2>
         </div>
       </Container>
-      <FrontLabels buttons={buttons} />
+      {showBack ? (
+        <BackLabels buttons={buttons} />
+      ) : (
+        <FrontLabels buttons={buttons} />
+      )};
     </Form>
   );
 };
