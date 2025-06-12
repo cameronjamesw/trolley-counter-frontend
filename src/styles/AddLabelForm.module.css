@@ -8,4 +8,8 @@
 .Label {
     background-color: #2d843d;
     border-radius: 20px;
+    border: #fff 2px double;
+    min-height: 100px;
+    margin: 20px 0px 20px 0px;
+    align-items: center;
 }
