@@ -14,10 +14,9 @@ import {
   faInfinity,
   faPlane,
 } from "@fortawesome/free-solid-svg-icons";
+import FrontLabels from "./FrontLabels";
 
 const AddLabelsForm = (props) => {
-  const [selectedIndices, setSelectedIndices] = useState([]);
-
   const buttons =
     props.totes_count === 1
       ? [
@@ -43,18 +42,6 @@ const AddLabelsForm = (props) => {
           <FontAwesomeIcon icon={faPlane} />,
         ];
 
-  const toggleSelection = (index) => {
-    setSelectedIndices((prevSelected) => {
-      if (prevSelected.includes(index)) {
-        // Deselect if already selected
-        return prevSelected.filter((i) => i !== index);
-      } else {
-        // Select if not already selected
-        return [...prevSelected, index];
-      }
-    });
-  };
-
   return (
     <Form className={styles.AddLabelForm}>
       <h1 className="text-white my-4">Add Labels</h1>
@@ -66,33 +53,7 @@ const AddLabelsForm = (props) => {
           <h2>Back Labels</h2>
         </div>
       </Container>
-      <Container className="text-white">
-        <Row
-          gap={3}
-          className={`d-flex justify-content-evenly ${styles.LabelsDiv}`}
-        >
-          {buttons.map((label, index) => {
-            const isSelected = selectedIndices.includes(index);
-
-            const buttonStyle = isSelected
-              ? { backgroundColor: "#2d843d" }
-              : undefined;
-
-            return (
-              <Col
-                key={index}
-                xs={{ span: 5, offset: 1 }}
-                lg={{ span: 4 }}
-                className={`mx-1 align-content-center ${styles.Label}`}
-                style={buttonStyle}
-                onClick={() => toggleSelection(index)}
-              >
-                {label}
-              </Col>
-            );
-          })}
-        </Row>
-      </Container>
+      <FrontLabels buttons={buttons} />
     </Form>
   );
 };
