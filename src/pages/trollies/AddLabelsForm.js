@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
 import styles from "../../styles/AddLabelForm.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSquare,
+  faCircle,
+  faPlay,
+  faPlus,
+  faWater,
+  faHeart,
+  faSeedling,
+  faCrow,
+} from "@fortawesome/free-solid-svg-icons";
 
 const AddLabelsForm = () => {
   const [selectedIndices, setSelectedIndices] = useState([]);
 
   const buttons = [
-    "Button 1",
-    "Button 2",
-    "Button 3",
-    "Button 4",
-    "Button 5",
-    "Button 6",
-    "Button 7",
-    "Button 8",
+    <FontAwesomeIcon icon={faSquare} />,
+    <FontAwesomeIcon icon={faCircle} />,
+    <FontAwesomeIcon icon={faPlay} />,
+    <FontAwesomeIcon icon={faPlus} />,
+    <FontAwesomeIcon icon={faWater} />,
+    <FontAwesomeIcon icon={faHeart} />,
+    <FontAwesomeIcon icon={faSeedling} />,
+    <FontAwesomeIcon icon={faCrow} />,
   ];
 
   const toggleSelection = (index) => {
@@ -36,7 +47,7 @@ const AddLabelsForm = () => {
             const isSelected = selectedIndices.includes(index);
 
             const buttonStyle = isSelected
-              ? { backgroundColor: "#1f1f1f" }
+              ? { backgroundColor: "#2d843d" }
               : undefined;
 
             return (
