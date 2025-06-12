@@ -107,7 +107,7 @@ const AddTrolleyForm = () => {
       </Button>
     </Form>
 
-    <AddLabelsForm />
+    <AddLabelsForm totes_count={totes_count} />
     </div>
   );
 };

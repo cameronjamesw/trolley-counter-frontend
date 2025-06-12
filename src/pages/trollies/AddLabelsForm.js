@@ -11,21 +11,37 @@ import {
   faHeart,
   faSeedling,
   faCrow,
+  faInfinity,
+  faPlane,
 } from "@fortawesome/free-solid-svg-icons";
 
-const AddLabelsForm = () => {
+const AddLabelsForm = (props) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
 
-  const buttons = [
-    <FontAwesomeIcon icon={faSquare} />,
-    <FontAwesomeIcon icon={faCircle} />,
-    <FontAwesomeIcon icon={faPlay} />,
-    <FontAwesomeIcon icon={faPlus} />,
-    <FontAwesomeIcon icon={faWater} />,
-    <FontAwesomeIcon icon={faHeart} />,
-    <FontAwesomeIcon icon={faSeedling} />,
-    <FontAwesomeIcon icon={faCrow} />,
-  ];
+  const buttons =
+    props.totes_count === 1
+      ? [
+          <FontAwesomeIcon icon={faSquare} />,
+          <FontAwesomeIcon icon={faCircle} />,
+          <FontAwesomeIcon icon={faPlay} />,
+          <FontAwesomeIcon icon={faPlus} />,
+          <FontAwesomeIcon icon={faWater} />,
+          <FontAwesomeIcon icon={faHeart} />,
+          <FontAwesomeIcon icon={faSeedling} />,
+          <FontAwesomeIcon icon={faCrow} />,
+        ]
+      : [
+          <FontAwesomeIcon icon={faSquare} />,
+          <FontAwesomeIcon icon={faCircle} />,
+          <FontAwesomeIcon icon={faPlay} />,
+          <FontAwesomeIcon icon={faPlus} />,
+          <FontAwesomeIcon icon={faWater} />,
+          <FontAwesomeIcon icon={faHeart} />,
+          <FontAwesomeIcon icon={faSeedling} />,
+          <FontAwesomeIcon icon={faCrow} />,
+          <FontAwesomeIcon icon={faInfinity} />,
+          <FontAwesomeIcon icon={faPlane} />,
+        ];
 
   const toggleSelection = (index) => {
     setSelectedIndices((prevSelected) => {
@@ -41,8 +57,20 @@ const AddLabelsForm = () => {
 
   return (
     <Form className={styles.AddLabelForm}>
+      <h1 className="text-white my-4">Add Labels</h1>
+      <Container className="text-white d-flex justify-content-around g-0">
+        <div className={`w-50 ${styles.LabelsDiv}`}>
+          <h2>Front Labels</h2>
+        </div>
+        <div className="w-50">
+          <h2>Back Labels</h2>
+        </div>
+      </Container>
       <Container className="text-white">
-        <Row gap={3} className="d-flex justify-content-evenly">
+        <Row
+          gap={3}
+          className={`d-flex justify-content-evenly ${styles.LabelsDiv}`}
+        >
           {buttons.map((label, index) => {
             const isSelected = selectedIndices.includes(index);
 
