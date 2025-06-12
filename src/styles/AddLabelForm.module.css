@@ -12,4 +12,10 @@
     min-height: 100px;
     margin: 20px 0px 20px 0px;
     align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.Label:hover {
+    background-color: #2e2e2e;
+    cursor: pointer;
 }
