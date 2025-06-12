@@ -4,17 +4,17 @@ import { useRedirect } from "../../hooks/useRedirect";
 import { Button, Container, Form } from "react-bootstrap";
 import styles from "../../styles/AddTrolleyForm.module.css"
 import AddLabelsForm from "./AddLabelsForm";
+import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 
 const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
 
-  const [formData, setFormData] = useState({
-    totes_count: 1,
-    in_use: 0,
-    notes: "",
-  });
-
-  const { totes_count, in_use, notes } = formData;
+  const {
+    formData: { totes_count, in_use, notes },
+    updateField,
+    toggleInUse,
+    updateToteCount,
+  } = useTrolleyForm();
 
   if (currentUser === undefined) {
     return null; // or loading spinner
@@ -23,27 +23,16 @@ const AddTrolleyForm = () => {
   useRedirect(!currentUser ? "loggedIn" : "loggedOut");
 
   const handleSelectChange = (event) => {
-    const value = parseInt(event.target.value, 10); // since you're working with numbers
-    setFormData((prev) => ({
-      ...prev,
-      totes_count: value,
-    }));
+    const value = parseInt(event.target.value, 10);
+    updateToteCount(value);
   };
 
   const handleSwitchChange = (event) => {
-    const checked = event.target.checked;
-    setFormData((prev) => ({
-      ...prev,
-      in_use: checked ? 1 : 0,
-    }));
-    console.log("Switch is now:", checked);
+    toggleInUse(event.target.checked);
   };
 
   const handleChange = (event) => {
-    setFormData((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
+    updateField(event.target.name, event.target.value);
   };
 
   const handleSubmit = (event) => {
