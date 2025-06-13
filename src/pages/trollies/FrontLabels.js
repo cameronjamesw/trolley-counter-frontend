@@ -22,16 +22,16 @@ const BackLabels = ({ buttons, showBack }) => {
   function handleLocalStorage(prev, index) {
     if (prev.includes(index)) {
       console.log("...removing item from local storage");
-      localStorage.removeItem(`${index}btnIndex`);
+      localStorage.removeItem(`front-${index}-btnIndex`);
     } else {
       console.log("...creating item in local storage");
-      localStorage.setItem(`${index}btnIndex`, index);
+      localStorage.setItem(`front-${index}-btnIndex`, index);
     }
   }
 
   const handleMount = async () => {
     buttons.map((label, index) => {
-      const currentlySelected = localStorage.getItem(`${index}btnIndex`);
+      const currentlySelected = localStorage.getItem(`front-${index}-btnIndex`);
       currentlySelected ? 
       setSelectedIndices((prev) => [...prev, index]) : null;
     });
