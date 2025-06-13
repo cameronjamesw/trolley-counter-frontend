@@ -118,9 +118,9 @@ const AddLabelsForm = (props) => {
         </div>
       </Container>
       {showBack ? (
-        <BackLabels buttons={buttons} />
+        <BackLabels buttons={buttons} showBack={showBack} />
       ) : (
-        <FrontLabels buttons={buttons} />
+        <FrontLabels buttons={buttons} showBack={showBack} />
       )}
     </Form>
   );

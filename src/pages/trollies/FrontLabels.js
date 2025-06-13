@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "../../styles/AddLabelForm.module.css";
 
-const BackLabels = ({ buttons }) => {
+const BackLabels = ({ buttons, showBack }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
 
   const toggleSelection = (index) => {
@@ -10,9 +10,7 @@ const BackLabels = ({ buttons }) => {
       if (prevSelected.includes(index)) {
         // Deselect if already selected
         handleLocalStorage(prevSelected, index);
-        return [
-          prevSelected.filter((i) => i !== index)
-        ];
+        return prevSelected.filter((i) => i !== index);
       } else {
         // Select if not already selected
         handleLocalStorage(prevSelected, index);
@@ -22,14 +20,26 @@ const BackLabels = ({ buttons }) => {
   };
 
   function handleLocalStorage(prev, index) {
-     if (prev.includes(index)) {
+    if (prev.includes(index)) {
       console.log("...removing item from local storage");
       localStorage.removeItem(`${index}btnIndex`);
-     } else {
+    } else {
       console.log("...creating item in local storage");
       localStorage.setItem(`${index}btnIndex`, index);
-     };
+    }
+  }
+
+  const handleMount = async () => {
+    buttons.map((label, index) => {
+      const currentlySelected = localStorage.getItem(`${index}btnIndex`);
+      currentlySelected ? 
+      setSelectedIndices((prev) => [...prev, index]) : null;
+    });
   };
+
+  useEffect(() => {
+    handleMount();
+  }, [showBack]);
 
   return (
     <Container className="text-white">
