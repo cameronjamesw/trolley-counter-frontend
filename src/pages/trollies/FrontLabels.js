@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import styles from "../../styles/Label.module.css";
 
 const BackLabels = ({ buttons, showBack }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
+  const [selectedBtns, setSelectedBtns] = useState([]);
 
   const toggleSelection = (index) => {
     setSelectedIndices((prevSelected) => {
@@ -32,14 +33,26 @@ const BackLabels = ({ buttons, showBack }) => {
   const handleMount = async () => {
     buttons.map((label, index) => {
       const currentlySelected = localStorage.getItem(`front-${index}-btnIndex`);
-      currentlySelected ? 
-      setSelectedIndices((prev) => [...prev, index]) : null;
+      currentlySelected ? setSelectedIndices((prev) => [...prev, index]) : null;
     });
   };
 
   useEffect(() => {
     handleMount();
   }, [showBack]);
+
+  const appendBtns = () => {
+    const btns = buttons.map((label, index) => {
+      const isSelected = selectedIndices.includes(index);
+      return {
+        shape: `${index + 1}`,
+        checked: isSelected,
+      };
+    });
+
+    console.log("Generated Button Objects:", btns);
+    setSelectedBtns(btns);
+  };
 
   return (
     <Container className="text-white">
@@ -48,7 +61,7 @@ const BackLabels = ({ buttons, showBack }) => {
         className={`d-flex justify-content-evenly ${styles.LabelsDiv}`}
       >
         {buttons.map((label, index) => {
-          const isSelected = selectedIndices.includes(index);
+          let isSelected = selectedIndices.includes(index);
 
           const buttonStyle = isSelected
             ? { backgroundColor: "#2d843d" }
@@ -67,6 +80,13 @@ const BackLabels = ({ buttons, showBack }) => {
             </Col>
           );
         })}
+        <Row>
+          <Col xs={{ span: 6, offset: 3 }}>
+            <Button variant="success" className="m-3" onClick={appendBtns}>
+              Save
+            </Button>
+          </Col>
+        </Row>
       </Row>
     </Container>
   );
