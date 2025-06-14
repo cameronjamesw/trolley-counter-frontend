@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import styles from "../../styles/AddLabelForm.module.css";
+import styles from "../../styles/Label.module.css";
 
 const FrontLabels = ({ buttons, showBack }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
