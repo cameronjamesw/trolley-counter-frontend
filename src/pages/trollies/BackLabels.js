@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 import styles from "../../styles/Label.module.css";
 
 const FrontLabels = ({ buttons, showBack }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
+  const { updateAllLabels } = useTrolleyForm();
 
   const toggleSelection = (index) => {
     setSelectedIndices((prevSelected) => {
@@ -40,6 +42,18 @@ const FrontLabels = ({ buttons, showBack }) => {
     handleMount();
   }, [showBack]);
 
+  const appendBtns = () => {
+    const btns = buttons.map((label, index) => {
+      const isSelected = selectedIndices.includes(index);
+      return {
+        shape: `${index + 1}`,
+        checked: isSelected,
+      };
+    });
+
+    updateAllLabels(btns, "back");
+  };
+
   return (
     <Container className="text-white">
       <Row
@@ -66,6 +80,13 @@ const FrontLabels = ({ buttons, showBack }) => {
             </Col>
           );
         })}
+        <Row>
+          <Col xs={{ span: 6, offset: 3 }}>
+            <Button variant="success" className="m-3" onClick={appendBtns}>
+              Save
+            </Button>
+          </Col>
+        </Row>
       </Row>
     </Container>
   );
