@@ -21,7 +21,7 @@ const TrolleyIndex = () => {
   };
 
   const buttonStyle = {
-    backgroundColor: isHovered ? "#006400" : "#2d843d",
+    backgroundColor: isHovered ? "#536F5C" : "#6E947B",
     cursor: "pointer",
     transition: "background-color 0.3s ease",
   };
