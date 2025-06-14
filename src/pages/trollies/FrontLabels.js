@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
+import { handleLocalStorage } from "../../utils/utils"
 import styles from "../../styles/Label.module.css";
 
 const BackLabels = ({ buttons, showBack }) => {
@@ -12,25 +13,15 @@ const BackLabels = ({ buttons, showBack }) => {
     setSelectedIndices((prevSelected) => {
       if (prevSelected.includes(index)) {
         // Deselect if already selected
-        handleLocalStorage(prevSelected, index);
+        handleLocalStorage(prevSelected, index, 'front');
         return prevSelected.filter((i) => i !== index);
       } else {
         // Select if not already selected
-        handleLocalStorage(prevSelected, index);
+        handleLocalStorage(prevSelected, index, 'front');
         return [...prevSelected, index];
       }
     });
   };
-
-  function handleLocalStorage(prev, index) {
-    if (prev.includes(index)) {
-      console.log("...removing item from local storage");
-      localStorage.removeItem(`front-${index}-btnIndex`);
-    } else {
-      console.log("...creating item in local storage");
-      localStorage.setItem(`front-${index}-btnIndex`, index);
-    }
-  }
 
   const handleMount = async () => {
     buttons.map((label, index) => {

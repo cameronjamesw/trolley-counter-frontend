@@ -21,3 +21,13 @@ export const shouldRefreshToken = () => {
   const now = Math.floor(Date.now() / 1000);
   return now >= timestamp - buffer;
 };
+
+export const handleLocalStorage = (prev, index, side) => {
+    if (prev.includes(index)) {
+      console.log("...removing item from local storage");
+      localStorage.removeItem(`${side}-${index}-btnIndex`);
+    } else {
+      console.log("...creating item in local storage");
+      localStorage.setItem(`${side}-${index}-btnIndex`, index);
+    }
+  };
