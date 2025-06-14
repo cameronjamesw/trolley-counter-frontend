@@ -54,7 +54,7 @@ const AddTrolleyForm = () => {
               Please specify the amount of totes this trolley has, and check if
               the trolley is in use.
             </p>
-            <Form.Group className="col-10" controlId="tote-count">
+            <Form.Group className="col-9" controlId="tote-count">
               <Form.Label className="d-none">Tote Count</Form.Label>
               <Form.Select
                 name="totes_count"

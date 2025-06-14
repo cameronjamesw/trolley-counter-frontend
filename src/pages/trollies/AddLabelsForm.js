@@ -67,8 +67,8 @@ const AddLabelsForm = (props) => {
   const backLabelBtnStyles = showBack
     ? {
         backgroundColor: "#536F5C",
-        borderTopLeftRadius: "50px",
-        borderTopRightRadius: "50px",
+        borderTopLeftRadius: "30px",
+        borderTopRightRadius: "30px",
         transition: "background-color 0.5s ease",
       }
     : undefined;
