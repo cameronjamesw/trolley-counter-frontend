@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 import styles from "../../styles/Label.module.css";
 
 const BackLabels = ({ buttons, showBack }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
-  const [selectedBtns, setSelectedBtns] = useState([]);
+
+  const { updateAllLabels } = useTrolleyForm();
 
   const toggleSelection = (index) => {
     setSelectedIndices((prevSelected) => {
@@ -42,17 +44,16 @@ const BackLabels = ({ buttons, showBack }) => {
   }, [showBack]);
 
   const appendBtns = () => {
-    const btns = buttons.map((label, index) => {
-      const isSelected = selectedIndices.includes(index);
-      return {
-        shape: `${index + 1}`,
-        checked: isSelected,
-      };
-    });
+  const btns = buttons.map((label, index) => {
+    const isSelected = selectedIndices.includes(index);
+    return {
+      shape: `${index + 1}`,
+      checked: isSelected,
+    };
+  });
 
-    console.log("Generated Button Objects:", btns);
-    setSelectedBtns(btns);
-  };
+  updateAllLabels(btns, "front");
+};
 
   return (
     <Container className="text-white">

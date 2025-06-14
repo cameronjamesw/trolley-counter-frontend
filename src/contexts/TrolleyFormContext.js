@@ -8,8 +8,12 @@ export const TrolleyFormProvider = ({ children }) => {
     totes_count: 1,
     in_use: 0,
     notes: "",
-    front_labels: Array(8).fill().map(() => ({ shape: "" })),
-    back_labels: Array(8).fill().map(() => ({ shape: "" })),
+    front_labels: Array(8)
+      .fill()
+      .map(() => ({ shape: "" })),
+    back_labels: Array(8)
+      .fill()
+      .map(() => ({ shape: "" })),
   });
 
   // Update full field
@@ -34,21 +38,22 @@ export const TrolleyFormProvider = ({ children }) => {
     setFormData((prev) => ({
       ...prev,
       totes_count: value,
-      front_labels: Array(count).fill().map(() => ({ shape: "" })),
-      back_labels: Array(count).fill().map(() => ({ shape: "" })),
+      front_labels: Array(count)
+        .fill()
+        .map(() => ({ shape: "" })),
+      back_labels: Array(count)
+        .fill()
+        .map(() => ({ shape: "" })),
     }));
   };
 
-  // Update a label shape
-  const updateLabelShape = (index, value, side) => {
-    setFormData((prev) => {
-      const updatedLabels = [...prev[side]];
-      updatedLabels[index] = { shape: value };
-      return {
-        ...prev,
-        [side]: updatedLabels,
-      };
-    });
+  // Replace all label objects on a given side
+  const updateAllLabels = (labels, side) => {
+    const field = side === "front" ? "front_labels" : "back_labels";
+    setFormData((prev) => ({
+      ...prev,
+      [field]: labels,
+    }));
   };
 
   return (
@@ -58,7 +63,7 @@ export const TrolleyFormProvider = ({ children }) => {
         updateField,
         toggleInUse,
         updateToteCount,
-        updateLabelShape,
+        updateAllLabels,
       }}
     >
       {children}
