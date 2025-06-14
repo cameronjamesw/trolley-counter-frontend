@@ -95,6 +95,14 @@ const AddLabelsForm = (props) => {
   return (
     <Form className={styles.AddLabelForm}>
       <h1 className="text-white my-4">Add Labels</h1>
+       <p className="mx-3 mb-4 fst-italic text-body-secondary text-left text-start">
+                Toggle between 'Front Labels' and 'Back Labels' to select desired labels
+                <ul>
+                  <li>Present labels should be highlighted green.</li>
+                  <li>Missing labels should remain black.</li>
+                  <li>Ensure to click 'Save' prior to toggling between labels.</li>
+                </ul>
+              </p>
       <Container className="text-white d-flex justify-content-around g-0">
         <div
           onMouseEnter={() => handleMouseEnter("front")}
