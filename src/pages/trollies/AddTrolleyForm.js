@@ -5,6 +5,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import styles from "../../styles/AddTrolleyForm.module.css";
 import AddLabelsForm from "./AddLabelsForm";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
+import { handleLocalStorage } from "../../utils/utils";
 
 const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
@@ -38,6 +39,7 @@ const AddTrolleyForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    handleLocalStorage([], null, null, true);
 
     console.log(formData);
   };
