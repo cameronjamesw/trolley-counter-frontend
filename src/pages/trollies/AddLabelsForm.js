@@ -84,7 +84,7 @@ const AddLabelsForm = (props) => {
   const getTextStyle = (name) => {
     if (showBack && name === "back") return {};
     if (!showBack && name === "front") return {};
-  
+
     return {
       color: hovered[name] ? "#000" : "#fff",
       cursor: "pointer",
@@ -118,9 +118,15 @@ const AddLabelsForm = (props) => {
         </div>
       </Container>
       {showBack ? (
-        <BackLabels buttons={buttons} showBack={showBack} />
+        <BackLabels
+          buttons={buttons}
+          showBack={showBack}
+        />
       ) : (
-        <FrontLabels buttons={buttons} showBack={showBack} />
+        <FrontLabels
+          buttons={buttons}
+          showBack={showBack}
+        />
       )}
     </Form>
   );
