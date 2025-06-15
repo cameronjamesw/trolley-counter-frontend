@@ -37,7 +37,7 @@ const SignInForm = () => {
     setErrors({}); // clear previous errors
 
     try {
-      const { data } = await axiosReq.post("/api/token/", signInData);
+      const { data } = await axiosReq.post("/api/api/token/", signInData);
       console.log("Login response data:", data);
 
       // Defensive: Check tokens presence before anything else

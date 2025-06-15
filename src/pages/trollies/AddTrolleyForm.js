@@ -6,16 +6,20 @@ import styles from "../../styles/AddTrolleyForm.module.css";
 import AddLabelsForm from "./AddLabelsForm";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 import { handleLocalStorage } from "../../utils/utils";
+import { axiosReq } from "../../api/axiosDefaults";
 
 const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
+  const [errors, setErrors] = useState({});
 
   const {
     formData: { totes_count, in_use, notes },
     updateField,
     toggleInUse,
     updateToteCount,
-    formData
+    formData,
+    front_labels,
+    back_labels
   } = useTrolleyForm();
 
   if (currentUser === undefined) {
@@ -37,9 +41,26 @@ const AddTrolleyForm = () => {
     updateField(event.target.name, event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     handleLocalStorage([], null, null, true);
+
+    const trolleyFormData = new FormData();
+
+    trolleyFormData.append('totes_count', totes_count);
+    trolleyFormData.append('in_use', in_use);
+    trolleyFormData.append('notes', notes);
+    trolleyFormData.append('front_labels', front_labels);
+    trolleyFormData.append('back_labels', back_labels);
+
+    try {
+      const { data } = await axiosReq.post('/api/trolleys/', trolleyFormData);
+      console.log('Trolley Successfully Created')
+    } catch (err) {
+      if (err.response?.status !== 401) {
+        setErrors(err.response?.data);
+      };
+    };
 
     console.log(formData);
   };

@@ -62,7 +62,7 @@ export const CurrentUserProvider = ({ children }) => {
           originalRequest._retry = true;
 
           try {
-            const { data } = await axiosReq.post("/api/token/refresh/", {
+            const { data } = await axiosReq.post("/api/api/token/refresh/", {
               refresh,
             });
 
