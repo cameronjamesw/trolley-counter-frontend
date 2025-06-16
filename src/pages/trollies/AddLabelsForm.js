@@ -93,50 +93,47 @@ const AddLabelsForm = (props) => {
   };
 
   return (
-    <Form className={styles.AddLabelForm}>
-      <h1 className="text-white my-4">Add Labels</h1>
-       <p className="mx-3 mb-4 fst-italic text-body-secondary text-left text-start">
-                Toggle between 'Front Labels' and 'Back Labels' to select desired labels
-                <ul>
-                  <li>Present labels should be highlighted green.</li>
-                  <li>Missing labels should remain black.</li>
-                  <li>Ensure to click 'Save' prior to toggling between labels.</li>
-                </ul>
-              </p>
-      <Container className="text-white d-flex justify-content-around g-0">
-        <div
-          onMouseEnter={() => handleMouseEnter("front")}
-          onMouseLeave={() => handleMouseLeave("front")}
-          onClick={handleToggle}
-          style={frontLabelBtnStyles}
-          data-name="front"
-          className={`w-50 p-2`}
-        >
-          <h2 style={getTextStyle("front")}>Front Labels</h2>
+    <Container className={styles.AddLabelForm}>
+        <div>
+          <h1 className="text-white my-4">Add Labels</h1>
+          <p className="mx-3 fst-italic text-body-secondary text-left text-start">
+            Toggle between 'Front Labels' and 'Back Labels' to select desired
+            labels
+          </p>
+          <ul className="mx-3 mb-4 fst-italic text-body-secondary text-left text-start">
+            <li>Present labels should be highlighted green.</li>
+            <li>Missing labels should remain black.</li>
+            <li>Ensure to click 'Save' prior to toggling between labels.</li>
+          </ul>
         </div>
-        <div
-          onMouseLeave={() => handleMouseLeave("back")}
-          onMouseEnter={() => handleMouseEnter("back")}
-          onClick={handleToggle}
-          style={backLabelBtnStyles}
-          data-name="back"
-          className="w-50 p-2"
-        >
-          <h2 style={getTextStyle("back")}>Back Labels</h2>
-        </div>
-      </Container>
-      {showBack ? (
-        <BackLabels
-          buttons={buttons}
-          showBack={showBack}
-        />
-      ) : (
-        <FrontLabels
-          buttons={buttons}
-          showBack={showBack}
-        />
-      )}
-    </Form>
+        <Container className="text-white d-flex justify-content-around g-0">
+          <div
+            onMouseEnter={() => handleMouseEnter("front")}
+            onMouseLeave={() => handleMouseLeave("front")}
+            onClick={handleToggle}
+            style={frontLabelBtnStyles}
+            data-name="front"
+            className={`w-50 p-2`}
+          >
+            <h2 style={getTextStyle("front")}>Front Labels</h2>
+          </div>
+          <div
+            onMouseLeave={() => handleMouseLeave("back")}
+            onMouseEnter={() => handleMouseEnter("back")}
+            onClick={handleToggle}
+            style={backLabelBtnStyles}
+            data-name="back"
+            className="w-50 p-2"
+          >
+            <h2 style={getTextStyle("back")}>Back Labels</h2>
+          </div>
+        </Container>
+        {showBack ? (
+          <BackLabels buttons={buttons} showBack={showBack} />
+        ) : (
+          <FrontLabels buttons={buttons} showBack={showBack} />
+        )}
+    </Container>
   );
 };
 

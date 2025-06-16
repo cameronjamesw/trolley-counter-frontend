@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
-import { Button, Container, Form } from "react-bootstrap";
+import { Alert, Button, Container, Form } from "react-bootstrap";
 import styles from "../../styles/AddTrolleyForm.module.css";
 import AddLabelsForm from "./AddLabelsForm";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
@@ -12,7 +12,8 @@ const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
   const [errors, setErrors] = useState({});
 
-  const { formData, updateField, toggleInUse, updateToteCount } = useTrolleyForm();
+  const { formData, updateField, toggleInUse, updateToteCount } =
+    useTrolleyForm();
   const { totes_count, in_use, notes, front_labels, back_labels } = formData;
 
   if (currentUser === undefined) {
@@ -35,35 +36,51 @@ const AddTrolleyForm = () => {
   };
 
   const handleSubmit = async (event) => {
-  event.preventDefault();
-  handleLocalStorage([], null, null, true);
+    event.preventDefault();
+    handleLocalStorage([], null, null, true);
 
-  const payload = {
-    totes_count,
-    in_use,
-    notes,
-    front_labels,
-    back_labels,
+    const payload = {
+      totes_count,
+      in_use,
+      notes,
+      front_labels,
+      back_labels,
+    };
+
+    console.log(`This is the payload: ${payload}`);
+
+    try {
+      const { data } = await axiosReq.post("/api/trolleys/", payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      if (err.response) {
+        // Server responded with a status code like 400, 401, etc.
+        setErrors(err.response.data);
+      } else {
+        // Network or other error
+        setErrors({
+          non_field_errors: ["Something went wrong. Please try again."],
+        });
+      };
+    };
   };
-
-  try {
-    const { data } = await axiosReq.post('/api/trolleys/', payload, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  } catch (err) {
-    if (err.response?.status !== 401) {
-      setErrors(err.response?.data);
-    }
-  }
-};
 
   return (
     <div>
       <Form onSubmit={handleSubmit}>
         <Container className={styles.AddTrolleyForm}>
           <h1 className="text-white my-4">Add Trolley</h1>
+
+          {Array.isArray(errors?.non_field_errors) &&
+            errors.non_field_errors.map((msg, idx) => (
+              <Alert key={idx} variant="danger">
+                {msg}
+              </Alert>
+            ))}
+
           <Container className="row">
             <p className="fst-italic text-body-secondary text-left text-start">
               Please specify the amount of totes this trolley has, and check if
@@ -81,6 +98,7 @@ const AddTrolleyForm = () => {
                 <option value="2">10 Totes</option>
               </Form.Select>
             </Form.Group>
+
             <Form.Group className="col align-self-center" controlId="in-use">
               <Form.Label className="d-none">In Use?</Form.Label>
               <Form.Check
@@ -90,6 +108,12 @@ const AddTrolleyForm = () => {
                 onChange={handleSwitchChange}
               />
             </Form.Group>
+            {Array.isArray(errors?.totes_count) &&
+              errors.totes_count.map((msg, idx) => (
+                <Alert className="mt-3" variant="warning" key={idx}>
+                  {msg}
+                </Alert>
+              ))}
           </Container>
 
           <Container className="row">
@@ -108,6 +132,12 @@ const AddTrolleyForm = () => {
                 onChange={handleChange}
               />
             </Form.Group>
+            {Array.isArray(errors?.notes) &&
+              errors.notes.map((msg, idx) => (
+                <Alert key={idx} variant="danger">
+                  {msg}
+                </Alert>
+              ))}
           </Container>
         </Container>
 
