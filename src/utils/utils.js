@@ -22,8 +22,8 @@ export const shouldRefreshToken = () => {
   return now >= timestamp - buffer;
 };
 
-export const handleLocalStorage = (prev, index, side, submit = false) => {
-  if (submit) {
+export const handleLocalStorage = (prev, index, side, submit = false, unmount = false) => {
+  if (submit || unmount) {
     // Remove all localStorage entries for both sides
     const sides = ["front", "back"];
     sides.forEach((s) => {

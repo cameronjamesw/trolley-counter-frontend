@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
 import { Alert, Button, Container, Form } from "react-bootstrap";
@@ -19,6 +19,7 @@ const AddTrolleyForm = () => {
     updateToteCount,
     setShow,
     saveClicked,
+    updateSaveClicked,
   } = useTrolleyForm();
   const { totes_count, in_use, notes, front_labels, back_labels } = formData;
   const { front, back } = saveClicked;
@@ -28,6 +29,13 @@ const AddTrolleyForm = () => {
   }
 
   useRedirect(!currentUser ? "loggedIn" : "loggedOut");
+
+  useEffect(() => {
+    return () => {
+      updateSaveClicked({ front: false, back: false });
+      handleLocalStorage([], null, null, null, true);
+    };
+  }, []);
 
   const handleSelectChange = (event) => {
     const value = parseInt(event.target.value, 10);
@@ -48,7 +56,7 @@ const AddTrolleyForm = () => {
     if (!front || !back) {
       setShow(true);
     } else {
-      handleLocalStorage([], null, null, true);
+      handleLocalStorage([], null, null, true, null);
 
       const payload = {
         totes_count,
