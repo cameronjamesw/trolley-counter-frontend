@@ -5,11 +5,29 @@ import { handleLocalStorage } from "../../utils/utils";
 import styles from "../../styles/Label.module.css";
 
 const BackLabels = ({ buttons, showBack }) => {
+  // Defines variables of the indecies of potentially selected buttons
   const [selectedIndices, setSelectedIndices] = useState([]);
 
+  // Destructures variables and functions from TrolleyContext
   const { updateAllLabels, saveClicked, updateSaveClicked } = useTrolleyForm();
   const {front} = saveClicked;
 
+   /**
+   * This function handles each button being toggled.
+   * If the back labels have already been saved and another button is clicked,
+   * this function resets the saveClicked state to false.
+   * 
+   * Furthermore, this function also creates an item in localStorage which
+   * correlates to the index of the button created. This is important for toggling
+   * between the frontLabels and backLabels component ensuring the buttons stay selected
+   * between toggles.
+   * 
+   * Finally, this function checks to see if the passed index, is already in the
+   * array of selectedIndecies, if it isn't, it creates an entry, otherwise it
+   * removes the entry.
+   * 
+   * @param {*} index 
+   */
   const toggleSelection = (index) => {
     if (front) {
       updateSaveClicked(false, "front");
@@ -27,6 +45,11 @@ const BackLabels = ({ buttons, showBack }) => {
     });
   };
 
+  /**
+   * This handleMount function retrieves the indecies from localStorage,
+   * as referred to earlier, and sets the selectedIndecies accordingly.
+   * Buttons return null if their indecies are not in localStorage.
+   */
   const handleMount = async () => {
     buttons.map((label, index) => {
       const currentlySelected = localStorage.getItem(`front-${index}-btnIndex`);
@@ -34,10 +57,19 @@ const BackLabels = ({ buttons, showBack }) => {
     });
   };
 
+  // Runs handleMount when showBack is toggled.
   useEffect(() => {
     handleMount();
   }, [showBack]);
 
+  /**
+   * This function appends the selected buttons to an object,
+   * and then passes that object to the updateAllLabels function which
+   * is in the TrolleyFormContext.
+   * 
+   * When this function is called, the saveClicked function is set to true
+   * for the "front" key value pair.
+   */
   const appendBtns = () => {
     if (!front) {
       updateSaveClicked(true, "front");

@@ -9,9 +9,11 @@ import { handleLocalStorage } from "../../utils/utils";
 import { axiosReq } from "../../api/axiosDefaults";
 
 const AddTrolleyForm = () => {
+  // Gets the current user
   const currentUser = useCurrentUser();
   const [errors, setErrors] = useState({});
 
+  // Destructure variablrs from useTrolleyForm Context
   const {
     formData,
     updateField,
@@ -21,6 +23,8 @@ const AddTrolleyForm = () => {
     saveClicked,
     updateSaveClicked,
   } = useTrolleyForm();
+
+  // Destructure variables from formData and saveClicked
   const { totes_count, in_use, notes, front_labels, back_labels } = formData;
   const { front, back } = saveClicked;
 
@@ -28,36 +32,46 @@ const AddTrolleyForm = () => {
     return null; // or loading spinner
   }
 
+  // Redirects user if unauthenticated
   useRedirect(!currentUser ? "loggedIn" : "loggedOut");
 
+  // Cleans up and resets states on unmount
   useEffect(() => {
     return () => {
       updateSaveClicked({ front: false, back: false });
       handleLocalStorage([], null, null, null, true);
+      setShow(false);
     };
   }, []);
 
+  // Handles the totes_count change, passes to TrolleyFormContext
   const handleSelectChange = (event) => {
     const value = parseInt(event.target.value, 10);
     updateToteCount(value);
   };
 
+  // Handles the in_use change, passes to TrolleyFormContext
   const handleSwitchChange = (event) => {
     toggleInUse(event.target.checked);
   };
 
+  // Handles the notes change, passes to TrolleyFormContext
   const handleChange = (event) => {
     updateField(event.target.name, event.target.value);
   };
 
+  // Handles the submission of the form
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Shows the setSave alert if front or back are false
     if (!front || !back) {
       setShow(true);
     } else {
+      // Resets labels local storage on submission
       handleLocalStorage([], null, null, true, null);
 
+      // Sets the payload for post request
       const payload = {
         totes_count,
         in_use,
@@ -67,6 +81,7 @@ const AddTrolleyForm = () => {
       };
 
       try {
+        // Posts header and payload to endpoint within package
         const { data } = await axiosReq.post("/api/trolleys/", payload, {
           headers: {
             "Content-Type": "application/json",

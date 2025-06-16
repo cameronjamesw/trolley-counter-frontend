@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Container, Row, Col, Alert } from "react-bootstrap";
+import { Container, Alert } from "react-bootstrap";
 import styles from "../../styles/AddLabelForm.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,19 +19,37 @@ import BackLabels from "./BackLabels";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 
 const AddLabelsForm = (props) => {
+  // Defines the state of the label context
   const [showBack, setShowBack] = useState(false);
+
+  // Defines the state of the label buttons
   const [hovered, setHovered] = useState({
     front: false,
     back: false,
   });
+
+  // Destructures variables from TrolleyFormContext
   const { show, setShow} = useTrolleyForm();
 
+  /**
+   * This function handles the toggle between the front and back
+   * labels component. Through using the showBack variable, the
+   * handleToggle function determines which set of buttons to
+   * display to the user.
+   * 
+   * @param {*} event 
+   */
   const handleToggle = (event) => {
     event.currentTarget.dataset.name == "front"
       ? setShowBack(false)
       : setShowBack(true);
   };
 
+  /**
+   * These are the FontAwesome icons displayed to the user, grouped within
+   * an array. A conditional statement is used to determine how many
+   * icons should be displayed to the user based on the totes_count prop.
+   */
   const buttons =
     props.totes_count === 1
       ? [
@@ -57,6 +75,11 @@ const AddLabelsForm = (props) => {
           <FontAwesomeIcon icon={faPlane} />,
         ];
 
+  /**
+   * These styles refer to the buttons displayed within the
+   * Front Labels component. They are conditionally rendered based
+   * on the showBack variable.
+   */
   const frontLabelBtnStyles = !showBack
     ? {
         backgroundColor: "#536F5C",
@@ -66,6 +89,11 @@ const AddLabelsForm = (props) => {
       }
     : undefined;
 
+    /**
+   * These styles refer to the buttons displayed within the
+   * Back Labels component. They are conditionally rendered based
+   * on the showBack variable.
+   */
   const backLabelBtnStyles = showBack
     ? {
         backgroundColor: "#536F5C",
@@ -75,16 +103,39 @@ const AddLabelsForm = (props) => {
       }
     : undefined;
 
+  /**
+   * This function handles the event of when the mouse enters each
+   * button element. In doing so, it sets the Hovered variable to 'true',
+   * adding the required style to the button element.
+   * @param {*} name 
+   */
   const handleMouseEnter = (name) => {
     setHovered((prev) => ({ ...prev, [name]: true }));
   };
 
+   /**
+   * This function handles the event of when the mouse leaves each
+   * button element. In doing so, it sets the Hovered variable to 'false',
+   * removing the required style from the button element.
+   * @param {*} name 
+   */
   const handleMouseLeave = (name) => {
     setHovered((prev) => ({ ...prev, [name]: false }));
   };
 
+/**
+ * This function defines text style of the h2 elements through two variables. ShowBack
+ * and a name variable, either being 'front' or 'back'. The style reflects the state of
+ * the component to provide a dynamic feel to the user.
+ * 
+ * @param {*} name 
+ * @returns 
+ */
   const getTextStyle = (name) => {
+    // If showback and 'back' are true, the h2 element is not effected
     if (showBack && name === "back") return {};
+
+    // If showback and 'back' are false, the h2 element, again, is not effected
     if (!showBack && name === "front") return {};
 
     return {
