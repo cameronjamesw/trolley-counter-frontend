@@ -12,9 +12,16 @@ const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
   const [errors, setErrors] = useState({});
 
-  const { formData, updateField, toggleInUse, updateToteCount } =
-    useTrolleyForm();
+  const {
+    formData,
+    updateField,
+    toggleInUse,
+    updateToteCount,
+    setShow,
+    saveClicked,
+  } = useTrolleyForm();
   const { totes_count, in_use, notes, front_labels, back_labels } = formData;
+  const { front, back } = saveClicked;
 
   if (currentUser === undefined) {
     return null; // or loading spinner
@@ -37,33 +44,36 @@ const AddTrolleyForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    handleLocalStorage([], null, null, true);
 
-    const payload = {
-      totes_count,
-      in_use,
-      notes,
-      front_labels,
-      back_labels,
-    };
+    if (!front || !back) {
+      setShow(true);
+    } else {
+      handleLocalStorage([], null, null, true);
 
-    console.log(`This is the payload: ${payload}`);
+      const payload = {
+        totes_count,
+        in_use,
+        notes,
+        front_labels,
+        back_labels,
+      };
 
-    try {
-      const { data } = await axiosReq.post("/api/trolleys/", payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (err) {
-      if (err.response) {
-        // Server responded with a status code like 400, 401, etc.
-        setErrors(err.response.data);
-      } else {
-        // Network or other error
-        setErrors({
-          non_field_errors: ["Something went wrong. Please try again."],
+      try {
+        const { data } = await axiosReq.post("/api/trolleys/", payload, {
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
+      } catch (err) {
+        if (err.response) {
+          // Server responded with a status code like 400, 401, etc.
+          setErrors(err.response.data);
+        } else {
+          // Network or other error
+          setErrors({
+            non_field_errors: ["Something went wrong. Please try again."],
+          });
+        };
       };
     };
   };

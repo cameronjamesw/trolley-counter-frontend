@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Container, Row, Col } from "react-bootstrap";
+import { Form, Container, Row, Col, Alert } from "react-bootstrap";
 import styles from "../../styles/AddLabelForm.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,9 +24,7 @@ const AddLabelsForm = (props) => {
     front: false,
     back: false,
   });
-  const {saveClicked} = useTrolleyForm();
-  const {front, back} = saveClicked;
-  console.log(`Front: ${front}. Back: ${back}`);
+  const { show, setShow} = useTrolleyForm();
 
   const handleToggle = (event) => {
     event.currentTarget.dataset.name == "front"
@@ -98,45 +96,51 @@ const AddLabelsForm = (props) => {
 
   return (
     <Container className={styles.AddLabelForm}>
-        <div>
-          <h1 className="text-white my-4">Add Labels</h1>
-          <p className="mx-3 fst-italic text-body-secondary text-left text-start">
-            Toggle between 'Front Labels' and 'Back Labels' to select desired
-            labels
-          </p>
-          <ul className="mx-3 mb-4 fst-italic text-body-secondary text-left text-start">
-            <li>Present labels should be highlighted green.</li>
-            <li>Missing labels should remain black.</li>
-            <li>Ensure to click 'Save' prior to toggling between labels.</li>
-          </ul>
+      <div>
+        <h1 className="text-white my-4">Add Labels</h1>
+        <p className="mx-3 fst-italic text-body-secondary text-left text-start">
+          Toggle between 'Front Labels' and 'Back Labels' to select desired
+          labels
+        </p>
+        <ul className="mx-3 mb-4 fst-italic text-body-secondary text-left text-start">
+          <li>Present labels should be highlighted green.</li>
+          <li>Missing labels should remain black.</li>
+          <li>Ensure to click 'Save' prior to toggling between labels.</li>
+        </ul>
+      </div>
+      <Container className="text-white d-flex justify-content-around g-0">
+        <div
+          onMouseEnter={() => handleMouseEnter("front")}
+          onMouseLeave={() => handleMouseLeave("front")}
+          onClick={handleToggle}
+          style={frontLabelBtnStyles}
+          data-name="front"
+          className={`w-50 p-2`}
+        >
+          <h2 style={getTextStyle("front")}>Front Labels</h2>
         </div>
-        <Container className="text-white d-flex justify-content-around g-0">
-          <div
-            onMouseEnter={() => handleMouseEnter("front")}
-            onMouseLeave={() => handleMouseLeave("front")}
-            onClick={handleToggle}
-            style={frontLabelBtnStyles}
-            data-name="front"
-            className={`w-50 p-2`}
-          >
-            <h2 style={getTextStyle("front")}>Front Labels</h2>
-          </div>
-          <div
-            onMouseLeave={() => handleMouseLeave("back")}
-            onMouseEnter={() => handleMouseEnter("back")}
-            onClick={handleToggle}
-            style={backLabelBtnStyles}
-            data-name="back"
-            className="w-50 p-2"
-          >
-            <h2 style={getTextStyle("back")}>Back Labels</h2>
-          </div>
-        </Container>
-        {showBack ? (
-          <BackLabels buttons={buttons} showBack={showBack} />
-        ) : (
-          <FrontLabels buttons={buttons} showBack={showBack} />
-        )}
+        <div
+          onMouseLeave={() => handleMouseLeave("back")}
+          onMouseEnter={() => handleMouseEnter("back")}
+          onClick={handleToggle}
+          style={backLabelBtnStyles}
+          data-name="back"
+          className="w-50 p-2"
+        >
+          <h2 style={getTextStyle("back")}>Back Labels</h2>
+        </div>
+      </Container>
+      {showBack ? (
+        <BackLabels buttons={buttons} showBack={showBack} />
+      ) : (
+        <FrontLabels buttons={buttons} showBack={showBack} />
+      )}
+
+      {show && (
+        <Alert className="mt-3" variant="danger" onClose={() => setShow(false)} dismissible>
+          Whoops! You didn't save your labels...
+        </Alert>
+      )}
     </Container>
   );
 };

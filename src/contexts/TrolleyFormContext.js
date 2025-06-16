@@ -20,6 +20,8 @@ export const TrolleyFormProvider = ({ children }) => {
     back: false,
   });
 
+  const [show, setShow] = useState(false);
+
   // Update full field
   const updateField = (field, value) => {
     setFormData((prev) => ({
@@ -81,6 +83,8 @@ export const TrolleyFormProvider = ({ children }) => {
       value={{
         formData,
         saveClicked,
+        show,
+        setShow,
         updateField,
         toggleInUse,
         updateToteCount,
