@@ -38,7 +38,7 @@ const BackLabels = ({ buttons, showBack }) => {
   const btns = buttons.map((label, index) => {
     const isSelected = selectedIndices.includes(index);
     return {
-      shape: `${index + 1}`,
+      shape: index + 1,
       checked: isSelected,
     };
   });

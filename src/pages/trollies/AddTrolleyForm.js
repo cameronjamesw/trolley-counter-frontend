@@ -12,15 +12,8 @@ const AddTrolleyForm = () => {
   const currentUser = useCurrentUser();
   const [errors, setErrors] = useState({});
 
-  const {
-    formData: { totes_count, in_use, notes },
-    updateField,
-    toggleInUse,
-    updateToteCount,
-    formData,
-    front_labels,
-    back_labels
-  } = useTrolleyForm();
+  const { formData, updateField, toggleInUse, updateToteCount } = useTrolleyForm();
+  const { totes_count, in_use, notes, front_labels, back_labels } = formData;
 
   if (currentUser === undefined) {
     return null; // or loading spinner
@@ -42,28 +35,29 @@ const AddTrolleyForm = () => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    handleLocalStorage([], null, null, true);
+  event.preventDefault();
+  handleLocalStorage([], null, null, true);
 
-    const trolleyFormData = new FormData();
-
-    trolleyFormData.append('totes_count', totes_count);
-    trolleyFormData.append('in_use', in_use);
-    trolleyFormData.append('notes', notes);
-    trolleyFormData.append('front_labels', front_labels);
-    trolleyFormData.append('back_labels', back_labels);
-
-    try {
-      const { data } = await axiosReq.post('/api/trolleys/', trolleyFormData);
-      console.log('Trolley Successfully Created')
-    } catch (err) {
-      if (err.response?.status !== 401) {
-        setErrors(err.response?.data);
-      };
-    };
-
-    console.log(formData);
+  const payload = {
+    totes_count,
+    in_use,
+    notes,
+    front_labels,
+    back_labels,
   };
+
+  try {
+    const { data } = await axiosReq.post('/api/trolleys/', payload, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (err) {
+    if (err.response?.status !== 401) {
+      setErrors(err.response?.data);
+    }
+  }
+};
 
   return (
     <div>
