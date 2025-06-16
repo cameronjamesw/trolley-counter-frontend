@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
-import { handleLocalStorage } from "../../utils/utils"
+import { handleLocalStorage } from "../../utils/utils";
 import styles from "../../styles/Label.module.css";
 
 const BackLabels = ({ buttons, showBack }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
 
-  const { updateAllLabels } = useTrolleyForm();
+  const { updateAllLabels, saveClicked, updateSaveClicked } = useTrolleyForm();
+  const {front} = saveClicked;
 
   const toggleSelection = (index) => {
+    if (front) {
+      updateSaveClicked(false, "front");
+    }
     setSelectedIndices((prevSelected) => {
       if (prevSelected.includes(index)) {
         // Deselect if already selected
-        handleLocalStorage(prevSelected, index, 'front');
+        handleLocalStorage(prevSelected, index, "front");
         return prevSelected.filter((i) => i !== index);
       } else {
         // Select if not already selected
-        handleLocalStorage(prevSelected, index, 'front');
+        handleLocalStorage(prevSelected, index, "front");
         return [...prevSelected, index];
       }
     });
@@ -35,16 +39,19 @@ const BackLabels = ({ buttons, showBack }) => {
   }, [showBack]);
 
   const appendBtns = () => {
-  const btns = buttons.map((label, index) => {
-    const isSelected = selectedIndices.includes(index);
-    return {
-      shape: index + 1,
-      checked: isSelected,
-    };
-  });
+    if (!front) {
+      updateSaveClicked(true, "front");
+    }
+    const btns = buttons.map((label, index) => {
+      const isSelected = selectedIndices.includes(index);
+      return {
+        shape: index + 1,
+        checked: isSelected,
+      };
+    });
 
-  updateAllLabels(btns, "front");
-};
+    updateAllLabels(btns, "front");
+  };
 
   return (
     <Container className="text-white">

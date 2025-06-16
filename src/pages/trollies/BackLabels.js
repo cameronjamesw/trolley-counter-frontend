@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
-import { handleLocalStorage } from "../../utils/utils"
+import { handleLocalStorage } from "../../utils/utils";
 import styles from "../../styles/Label.module.css";
 
 const FrontLabels = ({ buttons, showBack }) => {
   const [selectedIndices, setSelectedIndices] = useState([]);
-  const { updateAllLabels } = useTrolleyForm();
+  const { updateAllLabels, saveClicked, updateSaveClicked } = useTrolleyForm();
+  const {back} = saveClicked;
 
   const toggleSelection = (index) => {
+    if (back) {
+      updateSaveClicked(false, "back");
+    }
     setSelectedIndices((prevSelected) => {
       if (prevSelected.includes(index)) {
         // Deselect if already selected
-        handleLocalStorage(prevSelected, index, 'back');
+        handleLocalStorage(prevSelected, index, "back");
         return prevSelected.filter((i) => i !== index);
       } else {
         // Select if not already selected
-        handleLocalStorage(prevSelected, index, 'back');
+        handleLocalStorage(prevSelected, index, "back");
         return [...prevSelected, index];
       }
     });
@@ -34,6 +38,9 @@ const FrontLabels = ({ buttons, showBack }) => {
   }, [showBack]);
 
   const appendBtns = () => {
+    if (!back) {
+      updateSaveClicked(true, "back");
+    }
     const btns = buttons.map((label, index) => {
       const isSelected = selectedIndices.includes(index);
       return {

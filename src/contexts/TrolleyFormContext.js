@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext } from "react";
 
 const TrolleyFormContext = createContext();
 export const useTrolleyForm = () => useContext(TrolleyFormContext);
-
 export const TrolleyFormProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     totes_count: 1,
@@ -14,6 +13,11 @@ export const TrolleyFormProvider = ({ children }) => {
     back_labels: Array(8)
       .fill()
       .map(() => ({ shape: "" })),
+  });
+
+  const [saveClicked, setSaveClicked] = useState({
+    front: false,
+    back: false,
   });
 
   // Update full field
@@ -56,14 +60,30 @@ export const TrolleyFormProvider = ({ children }) => {
     }));
   };
 
+  const updateSaveClicked = (clicked, side) => {
+    if (clicked) {
+      setSaveClicked({
+        [side]: true,
+      });
+      console.log(`${side} save clicked!`);
+    } else {
+      setSaveClicked({
+        [side]: false,
+      });
+      console.log(`You need to click ${side} save!`);
+    };
+  };
+
   return (
     <TrolleyFormContext.Provider
       value={{
         formData,
+        saveClicked,
         updateField,
         toggleInUse,
         updateToteCount,
         updateAllLabels,
+        updateSaveClicked,
       }}
     >
       {children}
