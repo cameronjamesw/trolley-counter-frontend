@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import FrontLabels from "./FrontLabels";
 import BackLabels from "./BackLabels";
+import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 
 const AddLabelsForm = (props) => {
   const [showBack, setShowBack] = useState(false);
@@ -23,6 +24,9 @@ const AddLabelsForm = (props) => {
     front: false,
     back: false,
   });
+  const {saveClicked} = useTrolleyForm();
+  const {front, back} = saveClicked;
+  console.log(`Front: ${front}. Back: ${back}`);
 
   const handleToggle = (event) => {
     event.currentTarget.dataset.name == "front"

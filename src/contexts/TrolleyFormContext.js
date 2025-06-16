@@ -62,14 +62,16 @@ export const TrolleyFormProvider = ({ children }) => {
 
   const updateSaveClicked = (clicked, side) => {
     if (clicked) {
-      setSaveClicked({
+      setSaveClicked((prev) => ({
+        ...prev,
         [side]: true,
-      });
+      }));
       console.log(`${side} save clicked!`);
     } else {
-      setSaveClicked({
+      setSaveClicked((prev) => ({
+        ...prev,
         [side]: false,
-      });
+      }));
       console.log(`You need to click ${side} save!`);
     };
   };
