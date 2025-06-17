@@ -1,18 +1,35 @@
-import React from 'react'
-import { Col } from 'react-bootstrap'
-import styles from "../styles/RecentTrollies.module.css"
+import React, { useEffect, useState } from "react";
+import { Col } from "react-bootstrap";
+import styles from "../styles/RecentTrollies.module.css";
+import { axiosReq, axiosRes } from "../api/axiosDefaults";
 
 const RecentTrollies = () => {
-  return (
-    <Col 
-    xs={10}
-    md={5} 
-    className={`mt-4 text-white ${styles.Main}`}>
-        <h1>
-            Recent Trollies
-        </h1>
-    </Col>
-  )
-}
+  const [trollies, setTrollies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState({});
 
-export default RecentTrollies
+  useEffect(() => {
+    const fetchTrollies = async () => {
+      try {
+        const { data } = await axiosRes.get("/api/trolleys/");
+        const { results } = data;
+        setTrollies(results);
+      } catch (err) {
+        setErrors(err?.response.data);
+      }
+    };
+
+    fetchTrollies();
+  }, []);
+
+  return (
+    <Col xs={10} md={5} className={`mt-4 text-white ${styles.Main}`}>
+      <h1>Recent Trollies</h1>
+      {trollies?.map((trolley, idx) => (
+        <p key={idx}>Trolley: {trolley.id} | Created at: {trolley.created_at}</p>
+      ))}
+    </Col>
+  );
+};
+
+export default RecentTrollies;
