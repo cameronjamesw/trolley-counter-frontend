@@ -23,7 +23,7 @@ const RecentTrollies = () => {
   }, []);
 
   return (
-    <Col xs={10} md={5} className={`mt-4 text-white ${styles.Main}`}>
+    <Col xs={10} md={5} className={`my-4 text-white ${styles.Main}`}>
       <h1>Recent Trollies</h1>
       {trollies?.map((trolley, idx) => (
         <p key={idx}>Trolley: {trolley.id} | Created at: {trolley.created_at}</p>

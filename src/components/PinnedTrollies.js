@@ -7,7 +7,7 @@ const PinnedTrollies = () => {
     <Col 
     xs={10}
     md={5}  
-    className={`mt-4 text-white ${styles.Main}`}>
+    className={`my-4 text-white ${styles.Main}`}>
         <h1>Pinned Trollies</h1>
     </Col>
   )
