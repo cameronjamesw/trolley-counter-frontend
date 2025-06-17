@@ -5,8 +5,8 @@ import styles from "../styles/PinnedTrollies.module.css"
 const PinnedTrollies = () => {
   return (
     <Col 
-    xs={10}
-    md={5}  
+    xs={{span:10, offset: 1}} 
+    md={{span:5, offset:0}}  
     className={`my-4 text-white ${styles.Main}`}>
         <h1>Pinned Trollies</h1>
     </Col>

@@ -25,7 +25,7 @@ const RecentTrollies = () => {
   }, []);
 
   return (
-    <Col xs={10} md={5} className={`my-4 text-white ${styles.Main}`}>
+    <Col xs={{span:10, offset: 1}} md={{span:5, offset:0}} className={`my-4 text-white ${styles.Main}`}>
       <h1 className="p-2 mb-2">Recent Trollies</h1>
       {loading ? (
         <>
