@@ -5,11 +5,14 @@ import { axiosRes } from "../api/axiosDefaults";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 
 const RecentTrollies = () => {
   const [trollies, setTrollies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -47,7 +50,11 @@ const RecentTrollies = () => {
           {isMobile ? (
             <>
               {trollies?.map((trolley, idx) => (
-                <p className={styles.Trolley} key={idx}>
+                <p
+                  onClick={() => navigate(`/trolley/${trolley.id}/`)}
+                  className={styles.Trolley}
+                  key={idx}
+                >
                   <FontAwesomeIcon
                     className={styles.Icon}
                     icon={faCartShopping}
@@ -59,7 +66,11 @@ const RecentTrollies = () => {
           ) : (
             <>
               {trollies?.map((trolley, idx) => (
-                <p className={styles.Trolley} key={idx}>
+                <p
+                  onClick={() => navigate(`/trolley/${trolley.id}/`)}
+                  className={styles.Trolley}
+                  key={idx}
+                >
                   Trolley: {trolley.id} | Created at: {trolley.created_at} |{" "}
                   {trolley.totes_count}
                 </p>

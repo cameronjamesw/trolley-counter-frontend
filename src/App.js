@@ -7,6 +7,7 @@ import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
 import HomePage from "./pages/HomePage";
 import AddTrolleyForm from "./pages/trollies/AddTrolleyForm";
+import TrolleyDetail from "./pages/trollies/TrolleyDetail";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/sign-in/" element={<SignInForm />} />
           <Route path="/sign-up/" element={<SignUpForm />} />
           <Route exact path="/add-trolley/" element={<AddTrolleyForm />} />
+          <Route exact path="/trolley/:id/" element={<TrolleyDetail />}/>
         </Routes>
       </Container>
     </div>
