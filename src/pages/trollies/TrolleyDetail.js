@@ -8,6 +8,17 @@ const TrolleyDetail = () => {
   const [trolley, setTrolley] = useState({});
   const { id } = useParams();
 
+  const { 
+    creator,
+    totes_count,
+    notes,
+    in_use,
+    created_at,
+    updated_at,
+    missing_back_labels,
+    missing_front_labels } =
+    trolley;
+
   useEffect(() => {
     const fetchTrolley = async () => {
       try {
@@ -25,7 +36,14 @@ const TrolleyDetail = () => {
     <Container>
       <Row className="mt-5">
         <Col xs={12} md={{ span: 5 }} className={`${styles.Div}`}>
-          Trolley Info Window
+        <h1 className="text-white p-2">Key Info</h1>
+          <p className={styles.Info}>Trolley Number: {trolley.id}</p>
+          <p className={styles.Info}>Creator: {creator}</p>
+          <p className={styles.Info}>In Use: {in_use ? "Yes" : "No"}</p>
+          <p className={styles.Info}>Notes: {notes ? notes : "..."}</p>
+          <p className={styles.Info}>Totes Count: {totes_count === "Ten Totes" ? "10" : "8"}</p>
+          <p className={styles.Info}>Created At: {created_at}</p>
+          <p className={styles.Info}>Last Updated: {updated_at}</p>
         </Col>
         <Col xs={12} md={{ span: 5, offset: 2 }}>
           <Row className={`text-center mb-3 ${styles.Div}`}>
