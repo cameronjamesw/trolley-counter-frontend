@@ -3,10 +3,16 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import styles from "../../styles/TrolleyDetail.module.css";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import { useRedirect } from "../../hooks/useRedirect";
 
 const TrolleyDetail = () => {
   const [trolley, setTrolley] = useState({});
   const { id } = useParams();
+
+  const currentUser = useCurrentUser();
+
+  useRedirect(!currentUser ? "loggedIn" : "loggedOut");
 
   const { 
     creator,
@@ -32,6 +38,8 @@ const TrolleyDetail = () => {
 
     fetchTrolley();
   }, []);
+
+
   return (
     <Container>
       <Row className="mt-5">
@@ -40,7 +48,7 @@ const TrolleyDetail = () => {
           <p className={styles.Info}>Trolley Number: {trolley.id}</p>
           <p className={styles.Info}>Creator: {creator}</p>
           <p className={styles.Info}>In Use: {in_use ? "Yes" : "No"}</p>
-          <p className={styles.Info}>Notes: {notes ? notes : "..."}</p>
+          { notes && <p className={styles.Info}>Notes: {notes}</p>}
           <p className={styles.Info}>Totes Count: {totes_count === "Ten Totes" ? "10" : "8"}</p>
           <p className={styles.Info}>Created At: {created_at}</p>
           <p className={styles.Info}>Last Updated: {updated_at}</p>
