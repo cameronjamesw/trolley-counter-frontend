@@ -9,6 +9,10 @@ import { useMediaQuery } from "react-responsive";
 
 const TrolleyDetail = () => {
   const [trolley, setTrolley] = useState({});
+  const [labels, setLabels] = useState({
+    front: [],
+    back: [],
+  });
   const [loaded, setLoaded] = useState(false);
   const { id } = useParams();
 
@@ -32,9 +36,22 @@ const TrolleyDetail = () => {
   useEffect(() => {
     const fetchTrolley = async () => {
       try {
-        const { data } = await axiosReq.get(`/api/trolleys/${id}/`);
-        console.log(data);
-        setTrolley(data);
+        const { data: trolley } = await axiosReq.get(`/api/trolleys/${id}/`);
+        const { data: frontLabels } = await axiosReq.get(
+          `api/front-labels/?trolley=${id}`
+        );
+        const { data: backLabels } = await axiosReq.get(
+          `api/back-labels/?trolley=${id}`
+        );
+
+        const { results: frontLabelData } = frontLabels;
+        const { results: backLabelData } = backLabels;
+
+        setTrolley(trolley);
+        setLabels({
+          front: frontLabelData,
+          back: backLabelData,
+        });
       } catch (err) {
         console.log(err?.response.data);
       } finally {
@@ -42,6 +59,7 @@ const TrolleyDetail = () => {
       }
     };
 
+    console.log(labels);
     fetchTrolley();
   }, []);
 
