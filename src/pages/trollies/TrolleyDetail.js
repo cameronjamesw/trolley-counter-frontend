@@ -6,6 +6,7 @@ import styles from "../../styles/TrolleyDetail.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
 import { useMediaQuery } from "react-responsive";
+import { useLabelShapes } from "../../contexts/LabelShapesContext";
 
 const TrolleyDetail = () => {
   const [trolley, setTrolley] = useState({});
@@ -33,6 +34,8 @@ const TrolleyDetail = () => {
     missing_front_labels,
   } = trolley;
 
+  const shapeLabels = useLabelShapes();
+
   useEffect(() => {
     const fetchTrolley = async () => {
       try {
@@ -59,7 +62,6 @@ const TrolleyDetail = () => {
       }
     };
 
-    console.log(labels);
     fetchTrolley();
   }, []);
 

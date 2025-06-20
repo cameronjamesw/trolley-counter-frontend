@@ -15,25 +15,26 @@ import {
 
 export const LabelShapes = createContext(); 
 
-export const useLabelShapes = useContext(LabelShapes);
+// ✅ Correctly wrapped as a custom hook
+export const useLabelShapes = () => useContext(LabelShapes);
 
-export const LabelShapesProvider = ({children}) => {
-    const shapeLabels = {
-        1: <FontAwesomeIcon icon={faSquare} />,
-        2: <FontAwesomeIcon icon={faCircle} />,
-        3: <FontAwesomeIcon icon={faPlay} />,
-        4: <FontAwesomeIcon icon={faPlus} />,
-        5: <FontAwesomeIcon icon={faWater} />,
-        6: <FontAwesomeIcon icon={faHeart} />,
-        7: <FontAwesomeIcon icon={faSeedling}/>,
-        8: <FontAwesomeIcon icon={faCrow} />,
-        9: <FontAwesomeIcon icon={faInfinity} />,
-        10: <FontAwesomeIcon icon={faPlane} />
-    }
+export const LabelShapesProvider = ({ children }) => {
+  const shapeLabels = {
+    1: <FontAwesomeIcon icon={faSquare} />,
+    2: <FontAwesomeIcon icon={faCircle} />,
+    3: <FontAwesomeIcon icon={faPlay} />,
+    4: <FontAwesomeIcon icon={faPlus} />,
+    5: <FontAwesomeIcon icon={faWater} />,
+    6: <FontAwesomeIcon icon={faHeart} />,
+    7: <FontAwesomeIcon icon={faSeedling} />,
+    8: <FontAwesomeIcon icon={faCrow} />,
+    9: <FontAwesomeIcon icon={faInfinity} />,
+    10: <FontAwesomeIcon icon={faPlane} />,
+  };
 
-    return (
-        <LabelShapes.provider value={shapeLabels}>
-            {children}
-        </LabelShapes.provider>
-    )
-}
+  return (
+    <LabelShapes.Provider value={shapeLabels}>
+      {children}
+    </LabelShapes.Provider>
+  );
+};
