@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { CurrentUserProvider } from "./contexts/CurrentUserContext";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { TrolleyFormProvider } from "./contexts/TrolleyFormContext";
+import { LabelShapesProvider } from "./contexts/LabelShapesContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -24,7 +25,9 @@ root.render(
     <Router>
       <CurrentUserProvider>
         <TrolleyFormProvider>
-          <App />
+          <LabelShapesProvider>
+            <App />
+          </LabelShapesProvider>
         </TrolleyFormProvider>
       </CurrentUserProvider>
     </Router>
