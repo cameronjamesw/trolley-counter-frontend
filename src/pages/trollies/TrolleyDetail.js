@@ -101,18 +101,21 @@ const TrolleyDetail = () => {
             <h1 className="text-white p-3">Missing Front Labels</h1>
             {loaded ? (
               <>
-                {Array.isArray(missing_front_labels) &&
-                  missing_front_labels.map((label, idx) => (
+                {labels.front.map((label, idx) =>
+                  label.checked ? (
+                    null
+                  ) : (
                     <Col
+                      key={idx}
+                      className={styles.Info}
                       xs={10}
                       sm={3}
                       lg={5}
-                      className={styles.Info}
-                      key={idx}
                     >
-                      {label}
+                      {shapeLabels[idx + 1]}
                     </Col>
-                  ))}
+                  )
+                )}
               </>
             ) : (
               <Container className="text-white mt-3 mb-4">
@@ -128,18 +131,19 @@ const TrolleyDetail = () => {
             <h1 className="text-white p-3">Missing Back Labels</h1>
             {loaded ? (
               <>
-                {Array.isArray(missing_back_labels) &&
-                  missing_back_labels.map((label, idx) => (
+                {labels.back.map((label, idx) =>
+                  label.checked ? null : (
                     <Col
+                      key={idx}
+                      className={styles.Info}
                       xs={10}
                       sm={3}
                       lg={5}
-                      className={styles.Info}
-                      key={idx}
                     >
-                      {label}
+                      {shapeLabels[idx + 1]}
                     </Col>
-                  ))}
+                  )
+                )}
               </>
             ) : (
               <Container className="text-white mt-3 mb-4">
