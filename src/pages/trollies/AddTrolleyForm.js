@@ -7,11 +7,13 @@ import AddLabelsForm from "./AddLabelsForm";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 import { handleLocalStorage } from "../../utils/utils";
 import { axiosReq } from "../../api/axiosDefaults";
+import { useNavigate } from "react-router-dom";
 
 const AddTrolleyForm = () => {
   // Gets the current user
   const currentUser = useCurrentUser();
   const [errors, setErrors] = useState({});
+  const [count, setCount] = useState();
 
   // Destructure variablrs from useTrolleyForm Context
   const {
@@ -34,6 +36,20 @@ const AddTrolleyForm = () => {
 
   // Redirects user if unauthenticated
   useRedirect(!currentUser ? "loggedIn" : "loggedOut");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleMount = async () => {
+      try {
+        const { data } = await axiosReq.get('/api/trolleys/');
+        setCount(data.results[0].id);
+      } catch (err) {
+        console.log(err.response?.data)
+      }
+    };
+    handleMount();
+  }, []);
 
   // Cleans up and resets states on unmount
   useEffect(() => {
@@ -87,6 +103,7 @@ const AddTrolleyForm = () => {
             "Content-Type": "application/json",
           },
         });
+        navigate(`/trolley/${count + 1}/`);
       } catch (err) {
         if (err.response) {
           // Server responded with a status code like 400, 401, etc.
