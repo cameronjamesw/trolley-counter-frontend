@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import styles from "../../styles/TrolleyDetail.module.css";
@@ -7,6 +7,8 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
 import { useMediaQuery } from "react-responsive";
 import { useLabelShapes } from "../../contexts/LabelShapesContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const TrolleyDetail = () => {
   const [trolley, setTrolley] = useState({});
@@ -73,7 +75,17 @@ const TrolleyDetail = () => {
           md={{ span: 5 }}
           className={`${styles.Div} d-flex flex-column justify-content-evenly`}
         >
-          <h1 className="text-white p-2">Key Info</h1>
+          <Container className="d-flex">
+            <h1 className="text-white p-2">Key Info</h1>
+            <div className="ms-auto">
+              <Button variant="success my-3 mx-1">
+                <FontAwesomeIcon icon={faPencil} />
+              </Button>
+              <Button variant="danger my-3 mx-1">
+                <FontAwesomeIcon icon={faTrash} />
+              </Button>
+            </div>
+          </Container>
           {loaded ? (
             <>
               <p className={styles.Info}>Trolley Number: {trolley.id}</p>
@@ -102,9 +114,7 @@ const TrolleyDetail = () => {
             {loaded ? (
               <>
                 {labels.front.map((label, idx) =>
-                  label.checked ? (
-                    null
-                  ) : (
+                  label.checked ? null : (
                     <Col
                       key={idx}
                       className={styles.Info}
