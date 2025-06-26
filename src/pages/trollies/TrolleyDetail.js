@@ -93,7 +93,7 @@ const TrolleyDetail = () => {
         >
           <Container className="d-flex">
             <h1 className="text-white p-2">Key Info</h1>
-            <div className="ms-auto">
+            { loaded && <div className="ms-auto">
               <Button variant="success my-3 mx-1">
                 <FontAwesomeIcon icon={faPencil} />
               </Button>
@@ -102,7 +102,7 @@ const TrolleyDetail = () => {
               onClick={handleShow}>
                 <FontAwesomeIcon icon={faTrash} />
               </Button>
-            </div>
+            </div>}
           </Container>
           {loaded ? (
             <>
