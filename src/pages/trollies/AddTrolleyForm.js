@@ -37,8 +37,10 @@ const AddTrolleyForm = () => {
   // Redirects user if unauthenticated
   useRedirect(!currentUser ? "loggedIn" : "loggedOut");
 
+  // Navigates user to relevent page
   const navigate = useNavigate();
 
+  // This useEffect fetches the most recent trolley count
   useEffect(() => {
     const handleMount = async () => {
       try {
