@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import styles from "../../styles/TrolleyDetail.module.css";
@@ -17,7 +17,12 @@ const TrolleyDetail = () => {
     back: [],
   });
   const [loaded, setLoaded] = useState(false);
+  const [show, setShow] = useState(false);
+
   const { id } = useParams();
+ 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const currentUser = useCurrentUser();
 
@@ -94,7 +99,7 @@ const TrolleyDetail = () => {
               </Button>
               <Button 
               variant="danger my-3 mx-1"
-              onClick={handleDelete}>
+              onClick={handleShow}>
                 <FontAwesomeIcon icon={faTrash} />
               </Button>
             </div>
@@ -176,6 +181,21 @@ const TrolleyDetail = () => {
           </Row>
         </Col>
       </Row>
+      <Modal show={show} onHide={handleClose} data-bs-theme="dark">
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Trolley</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this trolley?</Modal.Body>
+        <Modal.Body><small>You cannot undo this action</small></Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
