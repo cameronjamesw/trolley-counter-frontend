@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import styles from "../../styles/TrolleyDetail.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -38,6 +38,8 @@ const TrolleyDetail = () => {
 
   const shapeLabels = useLabelShapes();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchTrolley = async () => {
       try {
@@ -67,6 +69,15 @@ const TrolleyDetail = () => {
     fetchTrolley();
   }, []);
 
+  const handleDelete = async () => {
+    try {
+      await axiosReq.delete(`/api/trolleys/${id}/`);
+      navigate('/');
+    } catch (err) {
+      console.log(err.response?.status);
+    };
+  };
+
   return (
     <Container>
       <Row className="mt-5">
@@ -81,7 +92,9 @@ const TrolleyDetail = () => {
               <Button variant="success my-3 mx-1">
                 <FontAwesomeIcon icon={faPencil} />
               </Button>
-              <Button variant="danger my-3 mx-1">
+              <Button 
+              variant="danger my-3 mx-1"
+              onClick={handleDelete}>
                 <FontAwesomeIcon icon={faTrash} />
               </Button>
             </div>
