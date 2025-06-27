@@ -5,8 +5,7 @@ import { Alert, Button, Container, Form } from "react-bootstrap";
 import styles from "../../styles/AddTrolleyForm.module.css";
 import AddLabelsForm from "./AddLabelsForm";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
-import { handleLocalStorage } from "../../utils/utils";
-import { axiosReq, axiosRes } from "../../api/axiosDefaults";
+import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateTrolleyForm = () => {
@@ -46,26 +45,21 @@ const UpdateTrolleyForm = () => {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const { data: count } = await axiosReq.get('/api/trolleys/');
+        const { data: count } = await axiosReq.get("/api/trolleys/");
         setCount(count.results[0].id);
 
-        const { data: trolley } = await axiosRes.get(`/api/trolleys/${id}/`);
-        console.log(trolley.results);
+        const { data: trolley } = await axiosReq.get(`/api/trolleys/${id}/`);
+
+        updateField("notes", trolley.notes);
+        trolley.totes_count === "Ten Totes" ? updateToteCount(2) : updateToteCount(1);
+        toggleInUse(trolley.in_use);
       } catch (err) {
-        console.log(err.response?.data)
+        console.log(err.response?.data);
       }
     };
     handleMount();
   }, []);
 
-  // Cleans up and resets states on unmount
-  useEffect(() => {
-    return () => {
-      updateSaveClicked({ front: false, back: false });
-      handleLocalStorage([], null, null, null, true);
-      setShow(false);
-    };
-  }, []);
 
   // Handles the totes_count change, passes to TrolleyFormContext
   const handleSelectChange = (event) => {
@@ -83,51 +77,51 @@ const UpdateTrolleyForm = () => {
     updateField(event.target.name, event.target.value);
   };
 
-  // Handles the submission of the form
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+//   // Handles the submission of the form
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
 
-    // Shows the setSave alert if front or back are false
-    if (!front || !back) {
-      setShow(true);
-    } else {
-      // Resets labels local storage on submission
-      handleLocalStorage([], null, null, true, null);
+//     // Shows the setSave alert if front or back are false
+//     if (!front || !back) {
+//       setShow(true);
+//     } else {
+//       // Resets labels local storage on submission
+//       handleLocalStorage([], null, null, true, null);
 
-      // Sets the payload for post request
-      const payload = {
-        totes_count,
-        in_use,
-        notes,
-        front_labels,
-        back_labels,
-      };
+//       // Sets the payload for post request
+//       const payload = {
+//         totes_count,
+//         in_use,
+//         notes,
+//         front_labels,
+//         back_labels,
+//       };
 
-      try {
-        // Posts header and payload to endpoint within package
-        const { data } = await axiosReq.post("/api/trolleys/", payload, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        navigate(`/trolley/${count + 1}/`);
-      } catch (err) {
-        if (err.response) {
-          // Server responded with a status code like 400, 401, etc.
-          setErrors(err.response.data);
-        } else {
-          // Network or other error
-          setErrors({
-            non_field_errors: ["Something went wrong. Please try again."],
-          });
-        };
-      };
-    };
-  };
+//       try {
+//         // Posts header and payload to endpoint within package
+//         const { data } = await axiosReq.post("/api/trolleys/", payload, {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         });
+//         navigate(`/trolley/${count + 1}/`);
+//       } catch (err) {
+//         if (err.response) {
+//           // Server responded with a status code like 400, 401, etc.
+//           setErrors(err.response.data);
+//         } else {
+//           // Network or other error
+//           setErrors({
+//             non_field_errors: ["Something went wrong. Please try again."],
+//           });
+//         }
+//       }
+//     }
+//   };
 
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={() => {}}>
         <Container className={styles.AddTrolleyForm}>
           <h1 className="text-white my-4">Add Trolley</h1>
 
@@ -210,4 +204,4 @@ const UpdateTrolleyForm = () => {
   );
 };
 
-export default UpdateTrolleyForm
+export default UpdateTrolleyForm;
