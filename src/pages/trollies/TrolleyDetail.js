@@ -83,6 +83,10 @@ const TrolleyDetail = () => {
     };
   };
 
+  const handleUpdate = () => {
+    navigate(`/trolley/${id}/update/`);
+  }
+
   return (
     <Container>
       <Row className="mt-5">
@@ -94,7 +98,9 @@ const TrolleyDetail = () => {
           <Container className="d-flex">
             <h1 className="text-white p-2">Key Info</h1>
             { loaded && <div className="ms-auto">
-              <Button variant="success my-3 mx-1">
+              <Button 
+                variant="success my-3 mx-1"
+                onClick={handleUpdate}>
                 <FontAwesomeIcon icon={faPencil} />
               </Button>
               <Button 
