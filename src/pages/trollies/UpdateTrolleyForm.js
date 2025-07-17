@@ -49,7 +49,6 @@ const UpdateTrolleyForm = () => {
         setCount(count.results[0].id);
 
         const { data: trolley } = await axiosReq.get(`/api/trolleys/${id}/`);
-
         updateField("notes", trolley.notes);
         trolley.totes_count === "Ten Totes" ? updateToteCount(2) : updateToteCount(1);
         toggleInUse(trolley.in_use);

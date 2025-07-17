@@ -20,16 +20,36 @@ export const useLabelShapes = () => useContext(LabelShapes);
 
 export const LabelShapesProvider = ({ children }) => {
   const shapeLabels = {
-    1: <FontAwesomeIcon icon={faSquare} />,
-    2: <FontAwesomeIcon icon={faCircle} />,
-    3: <FontAwesomeIcon icon={faPlay} />,
-    4: <FontAwesomeIcon icon={faPlus} />,
-    5: <FontAwesomeIcon icon={faWater} />,
-    6: <FontAwesomeIcon icon={faHeart} />,
-    7: <FontAwesomeIcon icon={faSeedling} />,
-    8: <FontAwesomeIcon icon={faCrow} />,
-    9: <FontAwesomeIcon icon={faInfinity} />,
-    10: <FontAwesomeIcon icon={faPlane} />,
+    1: {
+      icon: <FontAwesomeIcon icon={faSquare} />,
+      shape: "Square"},
+    2: {
+      icon: <FontAwesomeIcon icon={faCircle} />,
+      shape: "Circle"},
+    3: {
+      icon: <FontAwesomeIcon icon={faPlay} />,
+      shape: "Triangle"},
+    4: {
+      icon: <FontAwesomeIcon icon={faPlus} />,
+      shape: "Plus"},
+    5: {
+      icon: <FontAwesomeIcon icon={faWater} />,
+      shape: "Squiggle"},
+    6: {
+      icon: <FontAwesomeIcon icon={faHeart} />,
+      shape: "Heart"},
+    7: {
+      icon: <FontAwesomeIcon icon={faSeedling} />,
+      shape: "Flower"},
+    8: {
+      icon: <FontAwesomeIcon icon={faCrow} />,
+      shape: "Penguin"},
+    9: {
+      icon: <FontAwesomeIcon icon={faInfinity} />,
+      shape: "Infinity"},
+    10: {
+      icon: <FontAwesomeIcon icon={faPlane} />,
+      shape: "Plane"},
   };
 
   return (
