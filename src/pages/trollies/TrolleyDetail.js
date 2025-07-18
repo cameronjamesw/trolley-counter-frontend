@@ -146,7 +146,7 @@ const TrolleyDetail = () => {
                       sm={3}
                       lg={5}
                     >
-                      {shapeLabels[idx + 1]}
+                      {shapeLabels[idx]?.icon}
                     </Col>
                   )
                 )}
@@ -174,7 +174,7 @@ const TrolleyDetail = () => {
                       sm={3}
                       lg={5}
                     >
-                      {shapeLabels[idx + 1]}
+                      {shapeLabels[idx]?.icon}
                     </Col>
                   )
                 )}

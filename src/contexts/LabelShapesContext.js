@@ -13,48 +13,56 @@ import {
   faPlane,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const LabelShapes = createContext(); 
+export const LabelShapes = createContext();
 
 // ✅ Correctly wrapped as a custom hook
 export const useLabelShapes = () => useContext(LabelShapes);
 
 export const LabelShapesProvider = ({ children }) => {
-  const shapeLabels = {
-    1: {
+  const shapeLabels = [
+    {
       icon: <FontAwesomeIcon icon={faSquare} />,
-      shape: "Square"},
-    2: {
+      shape: "Square",
+    },
+    {
       icon: <FontAwesomeIcon icon={faCircle} />,
-      shape: "Circle"},
-    3: {
+      shape: "Circle",
+    },
+    {
       icon: <FontAwesomeIcon icon={faPlay} />,
-      shape: "Triangle"},
-    4: {
+      shape: "Triangle",
+    },
+    {
       icon: <FontAwesomeIcon icon={faPlus} />,
-      shape: "Plus"},
-    5: {
+      shape: "Plus",
+    },
+    {
       icon: <FontAwesomeIcon icon={faWater} />,
-      shape: "Squiggle"},
-    6: {
+      shape: "Squiggle",
+    },
+    {
       icon: <FontAwesomeIcon icon={faHeart} />,
-      shape: "Heart"},
-    7: {
+      shape: "Heart",
+    },
+    {
       icon: <FontAwesomeIcon icon={faSeedling} />,
-      shape: "Flower"},
-    8: {
+      shape: "Flower",
+    },
+    {
       icon: <FontAwesomeIcon icon={faCrow} />,
-      shape: "Penguin"},
-    9: {
+      shape: "Penguin",
+    },
+    {
       icon: <FontAwesomeIcon icon={faInfinity} />,
-      shape: "Infinity"},
-    10: {
+      shape: "Infinity",
+    },
+    {
       icon: <FontAwesomeIcon icon={faPlane} />,
-      shape: "Plane"},
-  };
+      shape: "Plane",
+    },
+  ];
 
   return (
-    <LabelShapes.Provider value={shapeLabels}>
-      {children}
-    </LabelShapes.Provider>
+    <LabelShapes.Provider value={shapeLabels}>{children}</LabelShapes.Provider>
   );
 };
