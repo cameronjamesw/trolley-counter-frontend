@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
-import { Alert, Button, Container, Form } from "react-bootstrap";
+import { Alert, Button, Container, Form, Spinner } from "react-bootstrap";
 import styles from "../../styles/AddTrolleyForm.module.css";
 import AddLabelsForm from "./AddLabelsForm";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
@@ -13,6 +13,7 @@ const UpdateTrolleyForm = () => {
   // Gets the current user
   const currentUser = useCurrentUser();
   const [errors, setErrors] = useState({});
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [count, setCount] = useState();
   const [labels, setLabels] = useState({
     front: [],
@@ -83,6 +84,8 @@ const UpdateTrolleyForm = () => {
         toggleInUse(trolley.in_use);
       } catch (err) {
         console.error(err.response?.data);
+      } finally {
+        setHasLoaded(true);
       }
     };
 
@@ -158,74 +161,85 @@ const UpdateTrolleyForm = () => {
         <Container className={styles.AddTrolleyForm}>
           <h1 className="text-white my-4">Update Trolley</h1>
 
-          {Array.isArray(errors?.non_field_errors) &&
-            errors.non_field_errors.map((msg, idx) => (
-              <Alert key={idx} variant="danger">
-                {msg}
-              </Alert>
-            ))}
+          {hasLoaded ? (
+            <>
+              {Array.isArray(errors?.non_field_errors) &&
+                errors.non_field_errors.map((msg, idx) => (
+                  <Alert key={idx} variant="danger">
+                    {msg}
+                  </Alert>
+                ))}
+              <Container className="row">
+                <p className="fst-italic text-body-secondary text-left text-start">
+                  Please specify the amount of totes this trolley has, and check
+                  if the trolley is in use.
+                </p>
+                <Form.Group className="col-9" controlId="tote-count">
+                  <Form.Label className="d-none">Tote Count</Form.Label>
+                  <Form.Select
+                    name="totes_count"
+                    value={totes_count}
+                    onChange={handleSelectChange}
+                  >
+                    <option value="">-- Select Count --</option>
+                    <option value="1">8 Totes</option>
+                    <option value="2">10 Totes</option>
+                  </Form.Select>
+                </Form.Group>
 
-          <Container className="row">
-            <p className="fst-italic text-body-secondary text-left text-start">
-              Please specify the amount of totes this trolley has, and check if
-              the trolley is in use.
-            </p>
-            <Form.Group className="col-9" controlId="tote-count">
-              <Form.Label className="d-none">Tote Count</Form.Label>
-              <Form.Select
-                name="totes_count"
-                value={totes_count}
-                onChange={handleSelectChange}
-              >
-                <option value="">-- Select Count --</option>
-                <option value="1">8 Totes</option>
-                <option value="2">10 Totes</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="col align-self-center" controlId="in-use">
-              <Form.Label className="d-none">In Use?</Form.Label>
-              <Form.Check
-                type="switch"
-                id="custom-switch"
-                checked={in_use}
-                onChange={handleSwitchChange}
-              />
-            </Form.Group>
-            {Array.isArray(errors?.totes_count) &&
-              errors.totes_count.map((msg, idx) => (
-                <Alert className="mt-3" variant="warning" key={idx}>
-                  {msg}
-                </Alert>
-              ))}
-          </Container>
-
-          <Container className="row">
-            <Form.Group className="mt-4 col" controlId="notes">
-              <p className="fst-italic text-body-secondary text-left text-start">
-                Add any notes to this trolley. For example, "the left break is
-                faulty"
-              </p>
-              <Form.Label className="d-none">Password</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={4}
-                placeholder="Enter any notes here..."
-                name="notes"
-                value={notes}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            {Array.isArray(errors?.notes) &&
-              errors.notes.map((msg, idx) => (
-                <Alert key={idx} variant="danger">
-                  {msg}
-                </Alert>
-              ))}
-          </Container>
+                <Form.Group
+                  className="col align-self-center"
+                  controlId="in-use"
+                >
+                  <Form.Label className="d-none">In Use?</Form.Label>
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    checked={in_use}
+                    onChange={handleSwitchChange}
+                  />
+                </Form.Group>
+                {Array.isArray(errors?.totes_count) &&
+                  errors.totes_count.map((msg, idx) => (
+                    <Alert className="mt-3" variant="warning" key={idx}>
+                      {msg}
+                    </Alert>
+                  ))}
+              </Container>
+              <Container className="row">
+                <Form.Group className="mt-4 col" controlId="notes">
+                  <p className="fst-italic text-body-secondary text-left text-start">
+                    Add any notes to this trolley. For example, "the left break
+                    is faulty"
+                  </p>
+                  <Form.Label className="d-none">Password</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={4}
+                    placeholder="Enter any notes here..."
+                    name="notes"
+                    value={notes}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+                {Array.isArray(errors?.notes) &&
+                  errors.notes.map((msg, idx) => (
+                    <Alert key={idx} variant="danger">
+                      {msg}
+                    </Alert>
+                  ))}
+              </Container>{" "}
+            </>
+          ) : (
+            <Spinner />
+          )}
         </Container>
 
-        <AddLabelsForm totes_count={totes_count} update_labels={true} />
+        {hasLoaded ? (
+          <AddLabelsForm totes_count={totes_count} update_labels={true} />
+        ) : (
+          <></>
+        )}
 
         <Container className={`${styles.AddTrolleyForm} mb-4`}>
           <Button variant="success" type="submit">
