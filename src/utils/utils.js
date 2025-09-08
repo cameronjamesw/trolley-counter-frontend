@@ -43,3 +43,9 @@ export const handleLocalStorage = (prev, index, side, submit = false, unmount = 
     localStorage.setItem(`${side}-${index}-btnIndex`, index);
   }
 };
+
+export const handleLabelsMount = (labels) => {
+  const { front, back } = labels;
+  console.log(`Front labels within utils`, front);
+  console.log(`Back labels within utils`, back);
+};

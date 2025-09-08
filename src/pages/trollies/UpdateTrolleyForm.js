@@ -7,6 +7,7 @@ import AddLabelsForm from "./AddLabelsForm";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate, useParams } from "react-router-dom";
+import { handleLabelsMount } from "../../utils/utils";
 
 const UpdateTrolleyForm = () => {
   // Gets the current user
@@ -63,10 +64,12 @@ const UpdateTrolleyForm = () => {
         const { results: backLabelData } = backLabels;
   
         // Update labels state
-        setLabels({
+        const newLabels = {
           front: frontLabelData,
-          back: backLabelData,
-        });
+          back: backLabelData
+        };
+
+        handleLabelsMount(newLabels);
   
         // Update other states
         updateField("notes", trolley.notes);
