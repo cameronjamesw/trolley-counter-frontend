@@ -231,7 +231,9 @@ const UpdateTrolleyForm = () => {
               </Container>{" "}
             </>
           ) : (
-            <Spinner />
+            <Container className="text-white mt-3 mb-4">
+              <Spinner />
+            </Container>
           )}
         </Container>
 
