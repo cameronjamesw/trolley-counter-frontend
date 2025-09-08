@@ -29,15 +29,15 @@ const AddLabelsForm = (props) => {
   });
 
   // Destructures variables from TrolleyFormContext
-  const { show, setShow} = useTrolleyForm();
+  const { show, setShow } = useTrolleyForm();
 
   /**
    * This function handles the toggle between the front and back
    * labels component. Through using the showBack variable, the
    * handleToggle function determines which set of buttons to
    * display to the user.
-   * 
-   * @param {*} event 
+   *
+   * @param {*} event
    */
   const handleToggle = (event) => {
     event.currentTarget.dataset.name == "front"
@@ -89,7 +89,7 @@ const AddLabelsForm = (props) => {
       }
     : undefined;
 
-    /**
+  /**
    * These styles refer to the buttons displayed within the
    * Back Labels component. They are conditionally rendered based
    * on the showBack variable.
@@ -107,30 +107,30 @@ const AddLabelsForm = (props) => {
    * This function handles the event of when the mouse enters each
    * button element. In doing so, it sets the Hovered variable to 'true',
    * adding the required style to the button element.
-   * @param {*} name 
+   * @param {*} name
    */
   const handleMouseEnter = (name) => {
     setHovered((prev) => ({ ...prev, [name]: true }));
   };
 
-   /**
+  /**
    * This function handles the event of when the mouse leaves each
    * button element. In doing so, it sets the Hovered variable to 'false',
    * removing the required style from the button element.
-   * @param {*} name 
+   * @param {*} name
    */
   const handleMouseLeave = (name) => {
     setHovered((prev) => ({ ...prev, [name]: false }));
   };
 
-/**
- * This function defines text style of the h2 elements through two variables. ShowBack
- * and a name variable, either being 'front' or 'back'. The style reflects the state of
- * the component to provide a dynamic feel to the user.
- * 
- * @param {*} name 
- * @returns 
- */
+  /**
+   * This function defines text style of the h2 elements through two variables. ShowBack
+   * and a name variable, either being 'front' or 'back'. The style reflects the state of
+   * the component to provide a dynamic feel to the user.
+   *
+   * @param {*} name
+   * @returns
+   */
   const getTextStyle = (name) => {
     // If showback and 'back' are true, the h2 element is not effected
     if (showBack && name === "back") return {};
@@ -148,7 +148,11 @@ const AddLabelsForm = (props) => {
   return (
     <Container className={styles.AddLabelForm}>
       <div>
-        <h1 className="text-white my-4">Add Labels</h1>
+        {props.update_labels ? (
+          <h1 className="text-white my-4">Update Labels</h1>
+        ) : (
+          <h1 className="text-white my-4">Add Labels</h1>
+        )}
         <p className="mx-3 fst-italic text-body-secondary text-left text-start">
           Toggle between 'Front Labels' and 'Back Labels' to select desired
           labels
@@ -188,7 +192,12 @@ const AddLabelsForm = (props) => {
       )}
 
       {show && (
-        <Alert className="mt-3" variant="danger" onClose={() => setShow(false)} dismissible>
+        <Alert
+          className="mt-3"
+          variant="danger"
+          onClose={() => setShow(false)}
+          dismissible
+        >
           Whoops! You didn't save your labels...
         </Alert>
       )}

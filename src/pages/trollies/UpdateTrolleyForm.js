@@ -122,7 +122,7 @@ const UpdateTrolleyForm = () => {
     <div>
       <Form onSubmit={() => {}}>
         <Container className={styles.AddTrolleyForm}>
-          <h1 className="text-white my-4">Add Trolley</h1>
+          <h1 className="text-white my-4">Update Trolley</h1>
 
           {Array.isArray(errors?.non_field_errors) &&
             errors.non_field_errors.map((msg, idx) => (
@@ -191,7 +191,7 @@ const UpdateTrolleyForm = () => {
           </Container>
         </Container>
 
-        <AddLabelsForm totes_count={totes_count} />
+        <AddLabelsForm totes_count={totes_count} update_labels={true}/>
 
         <Container className={`${styles.AddTrolleyForm} mb-4`}>
           <Button variant="success" type="submit">
