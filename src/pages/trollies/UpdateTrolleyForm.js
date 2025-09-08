@@ -13,6 +13,10 @@ const UpdateTrolleyForm = () => {
   const currentUser = useCurrentUser();
   const [errors, setErrors] = useState({});
   const [count, setCount] = useState();
+  const [labels, setLabels] = useState({
+    front: [],
+    back: [],
+  });
 
   // Destructure variablrs from useTrolleyForm Context
   const {
@@ -45,20 +49,37 @@ const UpdateTrolleyForm = () => {
   useEffect(() => {
     const handleMount = async () => {
       try {
+        // Fetch trolley count
         const { data: count } = await axiosReq.get("/api/trolleys/");
         setCount(count.results[0].id);
-
+  
+        // Fetch trolley and labels
         const { data: trolley } = await axiosReq.get(`/api/trolleys/${id}/`);
+        const { data: frontLabels } = await axiosReq.get(`api/front-labels/?trolley=${id}`);
+        const { data: backLabels } = await axiosReq.get(`api/back-labels/?trolley=${id}`);
+  
+        // Destructure results
+        const { results: frontLabelData } = frontLabels;
+        const { results: backLabelData } = backLabels;
+  
+        // Update labels state
+        setLabels({
+          front: frontLabelData,
+          back: backLabelData,
+        });
+  
+        // Update other states
         updateField("notes", trolley.notes);
-        trolley.totes_count === "Ten Totes" ? updateToteCount(2) : updateToteCount(1);
+        updateToteCount(trolley.totes_count === "Ten Totes" ? 2 : 1);
         toggleInUse(trolley.in_use);
+  
       } catch (err) {
-        console.log(err.response?.data);
+        console.error(err.response?.data);
       }
     };
+  
     handleMount();
-  }, []);
-
+  }, [id]);
 
   // Handles the totes_count change, passes to TrolleyFormContext
   const handleSelectChange = (event) => {
@@ -76,47 +97,47 @@ const UpdateTrolleyForm = () => {
     updateField(event.target.name, event.target.value);
   };
 
-//   // Handles the submission of the form
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
+  //   // Handles the submission of the form
+  //   const handleSubmit = async (event) => {
+  //     event.preventDefault();
 
-//     // Shows the setSave alert if front or back are false
-//     if (!front || !back) {
-//       setShow(true);
-//     } else {
-//       // Resets labels local storage on submission
-//       handleLocalStorage([], null, null, true, null);
+  //     // Shows the setSave alert if front or back are false
+  //     if (!front || !back) {
+  //       setShow(true);
+  //     } else {
+  //       // Resets labels local storage on submission
+  //       handleLocalStorage([], null, null, true, null);
 
-//       // Sets the payload for post request
-//       const payload = {
-//         totes_count,
-//         in_use,
-//         notes,
-//         front_labels,
-//         back_labels,
-//       };
+  //       // Sets the payload for post request
+  //       const payload = {
+  //         totes_count,
+  //         in_use,
+  //         notes,
+  //         front_labels,
+  //         back_labels,
+  //       };
 
-//       try {
-//         // Posts header and payload to endpoint within package
-//         const { data } = await axiosReq.post("/api/trolleys/", payload, {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         });
-//         navigate(`/trolley/${count + 1}/`);
-//       } catch (err) {
-//         if (err.response) {
-//           // Server responded with a status code like 400, 401, etc.
-//           setErrors(err.response.data);
-//         } else {
-//           // Network or other error
-//           setErrors({
-//             non_field_errors: ["Something went wrong. Please try again."],
-//           });
-//         }
-//       }
-//     }
-//   };
+  //       try {
+  //         // Posts header and payload to endpoint within package
+  //         const { data } = await axiosReq.post("/api/trolleys/", payload, {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         });
+  //         navigate(`/trolley/${count + 1}/`);
+  //       } catch (err) {
+  //         if (err.response) {
+  //           // Server responded with a status code like 400, 401, etc.
+  //           setErrors(err.response.data);
+  //         } else {
+  //           // Network or other error
+  //           setErrors({
+  //             non_field_errors: ["Something went wrong. Please try again."],
+  //           });
+  //         }
+  //       }
+  //     }
+  //   };
 
   return (
     <div>
@@ -191,7 +212,7 @@ const UpdateTrolleyForm = () => {
           </Container>
         </Container>
 
-        <AddLabelsForm totes_count={totes_count} update_labels={true}/>
+        <AddLabelsForm totes_count={totes_count} update_labels={true} />
 
         <Container className={`${styles.AddTrolleyForm} mb-4`}>
           <Button variant="success" type="submit">
