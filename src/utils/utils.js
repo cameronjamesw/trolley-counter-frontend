@@ -53,13 +53,23 @@ export const handleLocalStorage = (
 export const handleLabelsMount = (labels) => {
   const { front, back } = labels;
   front.forEach((label, idx) => {
-      if (label.checked) {
-        localStorage.setItem(`front-${idx}-btnIndex`, idx);
-      };
+    if (label.checked) {
+      localStorage.setItem(`front-${idx}-btnIndex`, idx);
+    }
   });
   back.forEach((label, idx) => {
     if (label.checked) {
       localStorage.setItem(`back-${idx}-btnIndex`, idx);
-    };
-});
+    }
+  });
+};
+
+export const handleLabelUnmount = (labels) => {
+  const { front, back } = labels;
+  front.forEach((label, idx) => {
+      localStorage.removeItem(`front-${idx}-btnIndex`, idx);
+  });
+  back.forEach((label, idx) => {
+      localStorage.removeItem(`back-${idx}-btnIndex`, idx);
+  });
 };

@@ -7,7 +7,7 @@ import AddLabelsForm from "./AddLabelsForm";
 import { useTrolleyForm } from "../../contexts/TrolleyFormContext";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useNavigate, useParams } from "react-router-dom";
-import { handleLabelsMount } from "../../utils/utils";
+import { handleLabelUnmount, handleLabelsMount } from "../../utils/utils";
 
 const UpdateTrolleyForm = () => {
   // Gets the current user
@@ -48,41 +48,51 @@ const UpdateTrolleyForm = () => {
 
   // This useEffect fetches the most recent trolley count
   useEffect(() => {
+    let newLabels = { front: [], back: [] }; // default value
+
     const handleMount = async () => {
       try {
         // Fetch trolley count
         const { data: count } = await axiosReq.get("/api/trolleys/");
         setCount(count.results[0].id);
-  
+
         // Fetch trolley and labels
         const { data: trolley } = await axiosReq.get(`/api/trolleys/${id}/`);
-        const { data: frontLabels } = await axiosReq.get(`api/front-labels/?trolley=${id}`);
-        const { data: backLabels } = await axiosReq.get(`api/back-labels/?trolley=${id}`);
-  
+        const { data: frontLabels } = await axiosReq.get(
+          `api/front-labels/?trolley=${id}`
+        );
+        const { data: backLabels } = await axiosReq.get(
+          `api/back-labels/?trolley=${id}`
+        );
+
         // Destructure results
         const { results: frontLabelData } = frontLabels;
         const { results: backLabelData } = backLabels;
-  
+
         // Update labels state
-        const newLabels = {
+        newLabels = {
           front: frontLabelData,
-          back: backLabelData
+          back: backLabelData,
         };
 
         handleLabelsMount(newLabels);
-  
+
         // Update other states
         updateField("notes", trolley.notes);
         updateToteCount(trolley.totes_count === "Ten Totes" ? 2 : 1);
         toggleInUse(trolley.in_use);
-  
       } catch (err) {
         console.error(err.response?.data);
       }
     };
-  
+
     handleMount();
-  }, [id]);
+
+    // Cleanup function runs on unmount
+    return () => {
+      handleLabelUnmount(newLabels);
+    };
+  }, []);
 
   // Handles the totes_count change, passes to TrolleyFormContext
   const handleSelectChange = (event) => {
