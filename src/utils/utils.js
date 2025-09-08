@@ -22,7 +22,13 @@ export const shouldRefreshToken = () => {
   return now >= timestamp - buffer;
 };
 
-export const handleLocalStorage = (prev, index, side, submit = false, unmount = false) => {
+export const handleLocalStorage = (
+  prev,
+  index,
+  side,
+  submit = false,
+  unmount = false
+) => {
   if (submit || unmount) {
     // Remove all localStorage entries for both sides
     const sides = ["front", "back"];
@@ -46,6 +52,14 @@ export const handleLocalStorage = (prev, index, side, submit = false, unmount = 
 
 export const handleLabelsMount = (labels) => {
   const { front, back } = labels;
-  console.log(`Front labels within utils`, front);
-  console.log(`Back labels within utils`, back);
+  front.forEach((label, idx) => {
+      if (label.checked) {
+        localStorage.setItem(`front-${idx}-btnIndex`, idx);
+      };
+  });
+  back.forEach((label, idx) => {
+    if (label.checked) {
+      localStorage.setItem(`back-${idx}-btnIndex`, idx);
+    };
+});
 };
