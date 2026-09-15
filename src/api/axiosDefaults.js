@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://trolley-counter-backend.onrender.com/";
+const baseURL = "https://trolley-counter-backend.onrender.com";
 
 export const axiosReq = axios.create({ baseURL, withCredentials: true });
 export const axiosRes = axios.create({ baseURL, withCredentials: true });
